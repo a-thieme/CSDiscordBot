@@ -12,13 +12,19 @@ class MyClient(discord.Client):
 
     async def on_message(self, message):
         if message.author == self.user:
-            # Ignore bot comments
             return
 
         if "~cs" in message.content:
             await message.channel.send(process_input(message))
         if message.content == 'ping':
             await message.channel.send('Pong! {0}ms'.format(round(client.latency, 3)))
+        if message.content == '~classes':
+            course_message = discord.Embed(title="Computer Science (Major) Courses", description="A list of the required courses for the CS Major", color=0x184b91)
+            for course in master_dict["Courses"]:
+                course_message.add_field(name=course, value="Value1", inline=True)
+                for courseinfo in master_dict["Courses"]:
+                    print(courseinfo[0])
+            await message.channel.send(embed=course_message)
 
 
 def process_input(message):
