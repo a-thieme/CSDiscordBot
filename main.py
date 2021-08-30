@@ -15,7 +15,7 @@ class MyClient(discord.Client):
             return
 
         if "~cs" in message.content:
-            await message.channel.send(process_input(message))
+            process_input(message)
         if message.content == 'ping':
             await message.channel.send('Pong! {0}ms'.format(round(client.latency, 3)))
         if message.content == '~classes':
@@ -32,13 +32,13 @@ def process_input(message):
     leading = split[1]
     if leading == "info":
         if len(split) == 2:
-            return "length is 2"
+            message.channel.send("length is 2")
     #        cs info
     elif leading == "classes":
-        return "leading is classes"
+        message.channel.send("leading is classes")
 
     elif leading == "professors":
-        return "leading is professors"
+        message.channel.send("leading is professors")
 
     return "error happened"
 
