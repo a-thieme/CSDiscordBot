@@ -66,5 +66,5 @@ if __name__ == "__main__":
 
     # start discord bot
     client = MyClient()
-    client.run('ODQxODkxMTk2MjA0NjEzNzAy.YJtWRg.KEPdDGnMts7b3EvRnVYIUCVXeI0')
+    client.run(open("token.txt", "r").read())
     
