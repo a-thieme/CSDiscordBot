@@ -28,13 +28,9 @@ def process_input(message, embedBuilder):
     if leading == "classes":
         embedBuilder.title = "Computer Science (Major) Courses"
         embedBuilder.description = "A list of the required courses for the CS Major"
-        print("check 1")
         for course in master_dict["Courses"]:
-            print(master_dict["Courses"][course]["name"])
-        #for course in master_dict["Courses"]:
-         #   print("check 2")
-          #  embedBuilder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
-           # print(master_dict["Courses"][course]['name'])
+            embedBuilder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
+        return embedBuilder
     ###### Info
     if leading == "info":
         if len(split) > 2:
