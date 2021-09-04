@@ -69,13 +69,13 @@ def process_input(message, embedBuilder):
                 embedBuilder.add_field(name="Office", value=master_dict["Professors"][professor]["office"], inline=False)
                 embedBuilder.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + strip_email(master_dict["Professors"][professor]["email"]) + ".jpg")
         return embedBuilder
-
+      
     embedBuilder.title = "Error"
     embedBuilder.description = "Command invalid"
     embedBuilder.color = 0xFF0000
     return embedBuilder
 
-
+  
 def reformat_class_name(name):
     new_name = ""
     temp = name.split('-')
@@ -85,8 +85,22 @@ def reformat_class_name(name):
     return new_name
 
 
+
 def strip_email(email):
     return email.split("@")[0]
+
+
+def get_class(class_name):
+    return "something"
+
+
+def reformat_class_name(name):
+    new_name = ""
+    temp = name.split('-')
+    new_name += temp[0] + temp[1]
+    if len(temp) > 2:
+        new_name += '-' + temp[2]
+    return new_name
 
 
 def get_class(class_name):
