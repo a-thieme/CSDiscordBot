@@ -5,8 +5,6 @@ global master_dict
 
 
 class MyClient(discord.Client):
-    bot_indicator = "!cs"
-
     async def on_ready(self):
         print('Logged on as', self.user)
 
@@ -15,24 +13,34 @@ class MyClient(discord.Client):
             return
 
         if "~cs" in message.content:
-            await message.channel.send(process_input(message))
-        if message.content == 'ping':
-            await message.channel.send('Pong! {0}ms'.format(round(client.latency, 3)))
+            embedBuilder = discord.Embed(color=0x184b91)
+            await message.channel.send(embed=process_input(message, embedBuilder))
 
-
-def process_input(message):
+def process_input(message, embedBuilder):
     split = message.content.strip().lower().split(" ")
     leading = split[1]
-    if leading == "info":
-        if len(split) == 2:
-            return "length is 2"
-    #        cs info
-    elif leading == "classes":
-        course_message = discord.Embed(title="Computer Science (Major) Courses", description="A list of the required courses for the CS Major", color=0x184b91)
+    ###### Ping
+    if leading == "ping":
+        embedBuilder.title = "Check your latency"
+        embedBuilder.description = 'Pong! {0}ms'.format(round(client.latency, 3))
+        return embedBuilder
+    ###### Classes
+    if leading == "classes":
+        embedBuilder.title = "Computer Science (Major) Courses"
+        embedBuilder.description = "A list of the required courses for the CS Major"
+        print("check 1")
         for course in master_dict["Courses"]:
-            for courseinfo in master_dict["Courses"]:
-                course_message.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
-                return course_message
+            print(master_dict["Courses"][course]["name"])
+        #for course in master_dict["Courses"]:
+         #   print("check 2")
+          #  embedBuilder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
+           # print(master_dict["Courses"][course]['name'])
+    ###### Info
+    if leading == "info":
+        if len(split) > 2:
+            return "length is 2 or more (an course argument was given)"
+    #        cs info
+        return "length is 1 (no args)"
     elif leading == "professors":
         return "leading is professors"
 
@@ -44,7 +52,6 @@ def get_prof(name):
         if name.lower() in professor.lower():
             for key in master_dict["Professors"][professor]:
                 print(master_dict["Professors"][professor][key])
-
 
 def reformat_class_name(name):
     new_name = ""
