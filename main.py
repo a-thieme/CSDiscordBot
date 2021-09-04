@@ -1,4 +1,5 @@
 import json
+import re
 import discord
 
 global master_dict
@@ -49,18 +50,21 @@ def process_input(message, embedBuilder):
         for professor in master_dict["Professors"]:
             embedBuilder.add_field(name=professor, value=master_dict["Professors"][professor]["title"], inline=True)
         return embedBuilder
+    elif leading == "professor":
+        professor_name = message.content.split("professor ")[1]
+        for professor in master_dict["Professors"]:
+            if professor_name.lower() in professor.lower():
+                embedBuilder.title = professor_name.title()
+                embedBuilder.add_field(name="Email", value=master_dict["Professors"][professor]["email"], inline=False)
+                embedBuilder.add_field(name="Title", value=master_dict["Professors"][professor]["title"], inline=False)
+                embedBuilder.add_field(name="Office", value=master_dict["Professors"][professor]["office"], inline=False)
+                embedBuilder.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + strip_email(master_dict["Professors"][professor]["email"]) + ".jpg")
+        return embedBuilder
 
     embedBuilder.title = "Error"
     embedBuilder.description = "Command invalid"
     embedBuilder.color = 0xFF0000
     return embedBuilder
-
-
-def get_prof(name):
-    for professor in master_dict["Professors"]:
-        if name.lower() in professor.lower():
-            for key in master_dict["Professors"][professor]:
-                print(master_dict["Professors"][professor][key])
 
 def reformat_class_name(name):
     new_name = ""
@@ -70,6 +74,8 @@ def reformat_class_name(name):
         new_name += '-' + temp[2]
     return new_name
 
+def strip_email(email):
+    return email.split("@")[0]
 
 def get_class(class_name):
     return "something"
