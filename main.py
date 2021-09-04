@@ -18,6 +18,11 @@ class MyClient(discord.Client):
 
 def process_input(message, embedBuilder):
     split = message.content.strip().lower().split(" ")
+    if len(split)<=1:
+        embedBuilder.title = "Error"
+        embedBuilder.description = "Expected input but received none"
+        embedBuilder.color = 0xFF0000
+        return embedBuilder
     leading = split[1]
     ###### Ping
     if leading == "ping":
@@ -36,11 +41,19 @@ def process_input(message, embedBuilder):
         if len(split) > 2:
             return "length is 2 or more (an course argument was given)"
     #        cs info
+
         return "length is 1 (no args)"
     elif leading == "professors":
-        return "leading is professors"
+        embedBuilder.title = "Computer Science Professors"
+        embedBuilder.description = "A list of all Full-Time Faculty in the Computer Science Department"
+        for professor in master_dict["Professors"]:
+            embedBuilder.add_field(name=professor, value=master_dict["Professors"][professor]["title"], inline=True)
+        return embedBuilder
 
-    return "error happened"
+    embedBuilder.title = "Error"
+    embedBuilder.description = "Command invalid"
+    embedBuilder.color = 0xFF0000
+    return embedBuilder
 
 
 def get_prof(name):
