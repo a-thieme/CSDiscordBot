@@ -39,18 +39,41 @@ def process_input(message):
             embed_builder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
     # Info #
     elif leading == "info":
-        # course argument was given
+        # some argument was given
+        # argument can be course and optionally the section
         if len(split) > 2:
             return "length is 2 or more (an course argument was given)"
         # just info
+
         # check if channel is in comp
-        name = ""
-        name = message.channel.name
+        name = message.channel.name.lower()
         if "comp" not in name:
+            print(name)
             embed_builder.title = "Invalid channel"
         else:
-            embed_builder.title = name
-        # return "length is 1 (no args)"
+            embed_builder.title = name.upper()  # + " Info"
+            # check for valid class shouldn't be needed because classes are added manually
+            # you can only do this because we know the format is COMP-XXXX
+            temp = name.split('-')
+            name = temp[0].upper() + temp[1]
+
+            temp_dict = master_dict["Courses"][name]
+            embed_builder.description = temp_dict["name"]
+
+            embed_builder.add_field(name="Hours", value=temp_dict["hours"], inline=False)
+            # todo:
+            '''
+            make this its own function so that you don't have to write it a 
+            second time for when people request a specific section
+            '''
+            if "sections" in temp_dict:
+                for section in temp_dict["sections"]:
+                    embed_builder.add_field(
+                        name=section,
+                        value=json.dumps(temp_dict["sections"][section]).replace(',', "\n"),
+                        inline=False
+                        )
+
     elif leading == "professors":
         # header and description
         embed_builder.title = "Computer Science Professors"
@@ -95,7 +118,7 @@ def error_embed(description):
     return builder
 
 
-def reformat_class_name(name):
+def fix_class_name(name):
     new_name = ""
     temp = name.split('-')
     new_name += temp[0] + temp[1]
