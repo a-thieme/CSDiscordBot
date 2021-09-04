@@ -28,10 +28,13 @@ def process_input(message):
     if leading == "ping":
         embed_builder.title = "Check your latency"
         embed_builder.description = 'Pong! {0}ms'.format(round(client.latency, 3))
+
     # Classes #
     elif leading == "classes":
+
         embed_builder.title = "Computer Science (Major) Courses"
         embed_builder.description = "A list of the required courses for the CS Major"
+
         for course in master_dict["Courses"]:
             embed_builder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
     # Info #
@@ -49,16 +52,18 @@ def process_input(message):
             embed_builder.title = name
         # return "length is 1 (no args)"
     elif leading == "professors":
-
+        # header and description
         embed_builder.title = "Computer Science Professors"
         embed_builder.description = "A list of all Full-Time Faculty in the Computer Science Department"
 
+        # adding all the individual professors
         for professor in master_dict["Professors"]:
             embed_builder.add_field(name=professor, value=master_dict["Professors"][professor]["title"], inline=True)
 
     elif leading == "professor":
+        # grabs everything after "professor "
         professor_name = message.content.split("professor ")[1].lower()
-        # find
+        # find professor that has at least part of one of the professor keys
         for professor in master_dict["Professors"]:
             if professor_name in professor.lower():
                 # set title to professor
