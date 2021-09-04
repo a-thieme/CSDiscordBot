@@ -17,33 +17,42 @@ class MyClient(discord.Client):
             embedBuilder = discord.Embed(color=0x184b91)
             await message.channel.send(embed=process_input(message, embedBuilder))
 
+
 def process_input(message, embedBuilder):
     split = message.content.strip().lower().split(" ")
-    if len(split)<=1:
+    if len(split) <= 1:
         embedBuilder.title = "Error"
         embedBuilder.description = "Expected input but received none"
         embedBuilder.color = 0xFF0000
         return embedBuilder
     leading = split[1]
-    ###### Ping
+    # Ping #
     if leading == "ping":
         embedBuilder.title = "Check your latency"
         embedBuilder.description = 'Pong! {0}ms'.format(round(client.latency, 3))
         return embedBuilder
-    ###### Classes
+    # Classes #
     if leading == "classes":
         embedBuilder.title = "Computer Science (Major) Courses"
         embedBuilder.description = "A list of the required courses for the CS Major"
         for course in master_dict["Courses"]:
             embedBuilder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
         return embedBuilder
-    ###### Info
+    # Info #
     if leading == "info":
+        # course argument was given
         if len(split) > 2:
             return "length is 2 or more (an course argument was given)"
-    #        cs info
-
-        return "length is 1 (no args)"
+        # just info
+        # check if channel is in comp
+        name = ""
+        name = message.channel.name
+        if "comp" not in name:
+            embedBuilder.title = "Invalid channel"
+        else:
+            embedBuilder.title = name
+        return embedBuilder
+        # return "length is 1 (no args)"
     elif leading == "professors":
         embedBuilder.title = "Computer Science Professors"
         embedBuilder.description = "A list of all Full-Time Faculty in the Computer Science Department"
@@ -66,6 +75,7 @@ def process_input(message, embedBuilder):
     embedBuilder.color = 0xFF0000
     return embedBuilder
 
+
 def reformat_class_name(name):
     new_name = ""
     temp = name.split('-')
@@ -74,8 +84,10 @@ def reformat_class_name(name):
         new_name += '-' + temp[2]
     return new_name
 
+
 def strip_email(email):
     return email.split("@")[0]
+
 
 def get_class(class_name):
     return "something"
@@ -89,4 +101,3 @@ if __name__ == "__main__":
     # start discord bot
     client = MyClient()
     client.run(open("token.txt", "r").read())
-    
