@@ -89,12 +89,11 @@ def process_input(message):
         for professor in master_dict["Professors"]:
             if professor_name in professor.lower():
                 # set title to professor
-                embed_builder.title = professor_name.title()
+                embed_builder.title = str(professor).title()
                 # adding email, title, office fields
                 embed_builder.add_field(name="Email", value=master_dict["Professors"][professor]["email"], inline=False)
                 embed_builder.add_field(name="Title", value=master_dict["Professors"][professor]["title"], inline=False)
-                embed_builder.add_field(name="Office", value=master_dict["Professors"][professor]["office"],
-                                        inline=False)
+                embed_builder.add_field(name="Office", value=master_dict["Professors"][professor]["office"], inline=False)
                 # adding thumbnail if it can be found
                 # todo: automatically generate this and store in new/modified json
                 embed_builder.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + strip_email(
@@ -127,7 +126,9 @@ def fix_class_name(name):
 
 
 def strip_email(email):
-    return email.split("@")[0]
+    username = email.split("@")[0];
+    return username.replace(".", "")
+    return username
 
 
 def get_class(class_name):
