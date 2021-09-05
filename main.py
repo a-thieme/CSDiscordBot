@@ -13,7 +13,7 @@ class MyClient(discord.Client):
             return
 
         if "~cs" in message.content:
-            # embedBuilder = discord.Embed(color=0x184b91)
+            # embed_builder = discord.Embed(color=0x184b91)
             await message.channel.send(embed=process_input(message))
 
 
@@ -48,7 +48,6 @@ def process_input(message):
         # check if channel is in comp
         name = message.channel.name.lower()
         if "comp" not in name:
-            print(name)
             embed_builder.title = "Invalid channel"
         else:
             embed_builder.title = name.upper()  # + " Info"
