@@ -104,14 +104,15 @@ def process_input(message):
         # grabs everything after "professor "
         professor_name = message.content.split("professor ")[1].lower()
         # find professor that has at least part of one of the professor keys
-        for professor in master_dict["Professors"]:
+        prof_dict = master_dict["Professors"]
+        for professor in prof_dict:
             if professor_name in professor.lower():
                 # set title to professor
                 embed_builder.title = str(professor).title()
                 # adding email, title, office fields
-                embed_builder.add_field(name="Email", value=master_dict["Professors"][professor]["email"], inline=False)
-                embed_builder.add_field(name="Title", value=master_dict["Professors"][professor]["title"], inline=False)
-                embed_builder.add_field(name="Office", value=master_dict["Professors"][professor]["office"], inline=False)
+                for field in prof_dict[professor]:
+                    embed_builder.add_field(name=field.title(), value=prof_dict[professor][field], inline=False)
+
                 # adding thumbnail if it can be found
                 # todo: automatically generate this and store in new/modified json
                 embed_builder.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + strip_email(
