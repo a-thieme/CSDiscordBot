@@ -57,21 +57,39 @@ def process_input(message):
             name = temp[0].upper() + temp[1]
 
             temp_dict = master_dict["Courses"][name]
-            embed_builder.description = temp_dict["name"]
 
-            embed_builder.add_field(name="Hours", value=temp_dict["hours"], inline=False)
-            # todo:
-            '''
-            make this its own function so that you don't have to write it a 
-            second time for when people request a specific section
-            '''
-            if "sections" in temp_dict:
-                for section in temp_dict["sections"]:
-                    embed_builder.add_field(
-                        name=section,
-                        value=json.dumps(temp_dict["sections"][section]).replace(',', "\n"),
-                        inline=False
-                        )
+            for big_key in temp_dict:
+                if big_key == "name":
+                    embed_builder.description = temp_dict["name"]
+                elif big_key == "prerequisites":
+                    pre_reqs = ""
+                    for req in temp_dict["prerequisites"]:
+                        if pre_reqs != "":
+                            pre_reqs += ", "
+                        pre_reqs += req
+                    embed_builder.add_field(name="Prerequisites", value=pre_reqs, inline=False)
+                elif big_key != "sections":
+                    embed_builder.add_field(name=big_key.title(), value=temp_dict[big_key], inline=False)
+                else:
+                    # todo:
+                    '''
+                    make this its own function so that you don't have to write it a
+                    second time for when people request a specific section
+                    '''
+                    for section in temp_dict["sections"]:
+                        string_builder = "```"
+                        for key in temp_dict["sections"][section]:
+                            line = key.title()
+                            while len(line) < 13:
+                                line += " "
+                            line += temp_dict["sections"][section][key] + "\n"
+                            string_builder += line
+                        string_builder += "```"
+                        embed_builder.add_field(
+                            name=section,
+                            value=string_builder,
+                            inline=False
+                            )
 
     elif leading == "professors":
         # header and description
@@ -126,13 +144,9 @@ def fix_class_name(name):
 
 
 def strip_email(email):
-    username = email.split("@")[0];
+    username = email.split("@")[0]
     return username.replace(".", "")
-    return username
-
-
-def get_class(class_name):
-    return "something"
+    # return username
 
 
 if __name__ == "__main__":
