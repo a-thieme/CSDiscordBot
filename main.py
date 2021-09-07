@@ -1,7 +1,10 @@
 import json
 import discord
 
+from professor import Professor
+
 global master_dict
+global admins
 
 
 class MyClient(discord.Client):
@@ -11,13 +14,17 @@ class MyClient(discord.Client):
     async def on_message(self, message):
         if message.author == self.user:
             return
+        if message.author.id in admins:
+            #if command.isAdmin():
+            pass
+            # allow admin commands
 
         if "~cs" in message.content:
             # embed_builder = discord.Embed(color=0x184b91)
-            await message.channel.send(embed=process_input(message))
+            await message.channel.send(embed=process_command(message))
 
 
-def process_input(message):
+def process_command(message):
     split = message.content.strip().lower().split(" ")
     if len(split) <= 1:
         return error_embed("Expected input but received none")
@@ -45,10 +52,10 @@ def process_input(message):
             return "length is 2 or more (an course argument was given)"
         # just info
 
-        # check if channel is in comp
+        # check if channel is in comp and is in the master dictionary
         name = message.channel.name.lower()
-        if "comp" not in name:
-            embed_builder.title = "Invalid channel"
+        if "comp" not in name or name.replace("-", "").upper() not in master_dict["Courses"]:
+            return error_embed("Invalid Channel")
         else:
             embed_builder.title = name.upper()  # + " Info"
             # check for valid class shouldn't be needed because classes are added manually
@@ -89,8 +96,7 @@ def process_input(message):
                             name=section,
                             value=string_builder,
                             inline=False
-                            )
-
+                        )
     elif leading == "professors":
         # header and description
         embed_builder.title = "Computer Science Professors"
@@ -112,12 +118,10 @@ def process_input(message):
                 # adding email, title, office fields
                 for field in prof_dict[professor]:
                     embed_builder.add_field(name=field.title(), value=prof_dict[professor][field], inline=False)
-
                 # adding thumbnail if it can be found
                 # todo: automatically generate this and store in new/modified json
                 embed_builder.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + strip_email(
                     master_dict["Professors"][professor]["email"]) + ".jpg")
-
                 # don't want it to find more than one professor for it
                 break
     else:
@@ -126,6 +130,10 @@ def process_input(message):
 
     # if all went well, this will return the value set by the if/else things
     return embed_builder
+
+
+def process_admin_command():
+    pass
 
 
 def error_embed(description):
@@ -147,13 +155,13 @@ def fix_class_name(name):
 def strip_email(email):
     username = email.split("@")[0]
     return username.replace(".", "")
-    # return username
 
 
 if __name__ == "__main__":
     # import info
     input_file = open("updated.json")
     master_dict = json.load(input_file)
+    admins = [229392999145144321, 225411938866167808]
 
     # start discord bot
     client = MyClient()
