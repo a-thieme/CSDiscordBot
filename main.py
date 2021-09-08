@@ -165,7 +165,6 @@ def strip_text(text):
     return soup.getText()
 
 
-
 def error_embed(description):
     builder = discord.Embed(color=discord.Color.red())
     builder.title = "Error"
