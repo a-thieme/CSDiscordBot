@@ -1,7 +1,10 @@
 import json
 import discord
+import feedparser
+from bs4 import BeautifulSoup
 
 global master_dict
+global rss_dict
 global admins
 
 
@@ -29,7 +32,7 @@ def process_command(message):
 
     embed_builder = discord.Embed(color=discord.Color.blue())
     leading = split[1]
-    
+
     # Ping #
     if leading == "ping":
         embed_builder.title = "Check your latency"
@@ -41,7 +44,7 @@ def process_command(message):
         embed_builder.description = "A list of the required courses for the CS Major"
         for course in master_dict["Courses"]:
             embed_builder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
-            
+
     # Info #
     elif leading == "info":
         name = message.channel.name  # get current channel name
@@ -52,7 +55,7 @@ def process_command(message):
             return error_embed("No data is available for this course")
         else:
             return get_class(name, embed_builder)
-        
+
     elif leading == "professors":
         # header and description
         embed_builder.title = "Computer Science Professors"
@@ -65,6 +68,16 @@ def process_command(message):
     elif leading == "professor":
         professor_name = message.content.split("professor ")[1].lower()  # grabs everything after "professor "
         return get_professor(professor_name, embed_builder)
+
+    elif leading == "news":
+        name = message.channel.name
+        if len(split) > 2:
+            name = split[2]  # if there is an argument, replace the channel name with the argument
+        name = name.upper().replace("-", "")  # format all channels to be uppercase in COMP1900 format
+        if name not in rss_dict["RSS"]:
+            return error_embed("No data is available for this course")
+        else:
+            return get_news(name, embed_builder)
 
     else:
         # input didn't match any of the if/else blocks
@@ -131,6 +144,28 @@ def get_class(course_name, embed):
     return embed
 
 
+def get_news(course_name, embed):
+    embed.title = course_name.upper() + " News"
+    key = rss_dict["RSS"][course_name] # retrieves the rss feed value
+    if key == "n/a":
+        return error_embed("No news data is available for this course. If you would like to receive news, please contact Adam or Marshall")
+    # if the key is available, do stuff
+    news = feedparser.parse("https://elearn.memphis.edu/d2l/le/news/rss/" + key + "/course?token=ax72b4q7smuiounj1185cb")
+    entries = news.entries
+    if len(entries) == 0:
+        return error_embed("No news has been recently posted for this course.")
+    for entry in entries:
+        embed.add_field(name="**"+entry.title+"**", value=strip_text(entry.summary), inline=False)
+        strip_text(entry.summary)
+    return embed
+
+
+def strip_text(text):
+    soup = BeautifulSoup(text, 'html.parser')
+    return soup.getText()
+
+
+
 def error_embed(description):
     builder = discord.Embed(color=discord.Color.red())
     builder.title = "Error"
@@ -154,9 +189,13 @@ def strip_email(email):
 
 if __name__ == "__main__":
     # import info
-    input_file = open("updated.json")
-    master_dict = json.load(input_file)
+    cs_input_file = open("cs_info.json")
+    master_dict = json.load(cs_input_file)
     admins = [229392999145144321, 225411938866167808]
+
+    # import rss feeds
+    rss_input_file = open("rss.json")
+    rss_dict = json.load(rss_input_file)
 
     # start discord bot
     client = MyClient()
