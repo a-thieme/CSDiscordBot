@@ -1,8 +1,6 @@
 import json
 import discord
 
-from professor import Professor
-
 global master_dict
 global admins
 
@@ -31,6 +29,7 @@ def process_command(message):
 
     embed_builder = discord.Embed(color=discord.Color.blue())
     leading = split[1]
+    
     # Ping #
     if leading == "ping":
         embed_builder.title = "Check your latency"
@@ -38,22 +37,22 @@ def process_command(message):
 
     # Classes #
     elif leading == "classes":
-
         embed_builder.title = "Computer Science (Major) Courses"
         embed_builder.description = "A list of the required courses for the CS Major"
-
         for course in master_dict["Courses"]:
             embed_builder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
+            
     # Info #
     elif leading == "info":
-        name = message.channel.name # get current channel name
+        name = message.channel.name  # get current channel name
         if len(split) > 2:
-            name = split[2] # if there is an argument, replace the channel name with the argument
-        name = name.upper().replace("-", "") # format all channels to be uppercase in COMP1900 format
-        if "COMP" not in name or name not in master_dict["Courses"]: # find the correct course
+            name = split[2]  # if there is an argument, replace the channel name with the argument
+        name = name.upper().replace("-", "")  # format all channels to be uppercase in COMP1900 format
+        if "COMP" not in name or name not in master_dict["Courses"]:  # find the correct course
             return error_embed("No data is available for this course")
         else:
             return get_class(name, embed_builder)
+        
     elif leading == "professors":
         # header and description
         embed_builder.title = "Computer Science Professors"
@@ -64,23 +63,9 @@ def process_command(message):
             embed_builder.add_field(name=professor, value=master_dict["Professors"][professor]["title"], inline=True)
 
     elif leading == "professor":
-        # grabs everything after "professor "
-        professor_name = message.content.split("professor ")[1].lower()
-        # find professor that has at least part of one of the professor keys
-        prof_dict = master_dict["Professors"]
-        for professor in prof_dict:
-            if professor_name in professor.lower():
-                # set title to professor
-                embed_builder.title = str(professor).title()
-                # adding email, title, office fields
-                for field in prof_dict[professor]:
-                    embed_builder.add_field(name=field.title(), value=prof_dict[professor][field], inline=False)
-                # adding thumbnail if it can be found
-                # todo: automatically generate this and store in new/modified json
-                embed_builder.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + strip_email(
-                    master_dict["Professors"][professor]["email"]) + ".jpg")
-                # don't want it to find more than one professor for it
-                break
+        professor_name = message.content.split("professor ")[1].lower()  # grabs everything after "professor "
+        return get_professor(professor_name, embed_builder)
+
     else:
         # input didn't match any of the if/else blocks
         return error_embed("Command invalid")
@@ -93,13 +78,29 @@ def process_admin_command():
     pass
 
 
+def get_professor(professor_name, embed):
+    prof_dict = master_dict["Professors"]
+    for professor in prof_dict:
+        if professor_name in professor.lower():
+            # set title to professor
+            embed.title = str(professor).title()
+            # adding email, title, office fields
+            for field in prof_dict[professor]:
+                embed.add_field(name=field.title(), value=prof_dict[professor][field], inline=False)
+            # adding thumbnail if it can be found
+            # todo: automatically generate this and store in new/modified json
+            embed.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + strip_email(
+                master_dict["Professors"][professor]["email"]) + ".jpg")
+            # don't want it to find more than one professor for it
+            break
+    return embed
+
+
 def get_class(course_name, embed):
     embed.title = course_name.upper()  # + " Info"
     # check for valid class shouldn't be needed because classes are added manually
-    # you can only do this because we know the format is COMP-XXXX
-
+    # you can only do this because we know the format is COMPXXXX
     temp_dict = master_dict["Courses"][course_name]
-
     for big_key in temp_dict:
         if big_key == "name":
             embed.description = temp_dict["name"]
@@ -113,11 +114,6 @@ def get_class(course_name, embed):
         elif big_key != "sections":
             embed.add_field(name=big_key.title(), value=temp_dict[big_key], inline=False)
         else:
-            # todo:
-            '''
-            make this its own function so that you don't have to write it a
-            second time for when people request a specific section
-            '''
             for section in temp_dict["sections"]:
                 string_builder = "```"
                 for key in temp_dict["sections"][section]:
