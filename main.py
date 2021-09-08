@@ -146,16 +146,18 @@ def get_class(course_name, embed):
 
 def get_news(course_name, embed):
     embed.title = course_name.upper() + " News"
-    key = rss_dict["RSS"][course_name] # retrieves the rss feed value
+    key = rss_dict["RSS"][course_name]  # retrieves the rss feed value
     if key == "n/a":
-        return error_embed("No news data is available for this course. If you would like to receive news, please contact Adam or Marshall")
+        return error_embed(
+            "No news data is available for this course. If you would like to receive news, please contact Adam or Marshall")
     # if the key is available, do stuff
-    news = feedparser.parse("https://elearn.memphis.edu/d2l/le/news/rss/" + key + "/course?token=ax72b4q7smuiounj1185cb")
+    news = feedparser.parse(
+        "https://elearn.memphis.edu/d2l/le/news/rss/" + key + "/course?token=ax72b4q7smuiounj1185cb")
     entries = news.entries
     if len(entries) == 0:
         return error_embed("No news has been recently posted for this course.")
     for entry in entries:
-        embed.add_field(name="**"+entry.title+"**", value=strip_text(entry.summary), inline=False)
+        embed.add_field(name="**" + entry.title + "**", value=strip_text(entry.summary), inline=False)
         strip_text(entry.summary)
     return embed
 
