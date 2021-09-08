@@ -1,5 +1,5 @@
 # CSDiscordBot
-###Commands
+### Commands
 ```
 ~cs info [optional="course code"] : Retrieves information on the given course, or the current channel if no argument is provided
 ~cs professor ["Professor name"] : Retrieves information on a specific professor
@@ -8,7 +8,7 @@
 ~cs ping : Pings the bot 
 ~cs news [optional="course code"] : Retrieves recent ecourseware news on the given course, or the current channel if no argument is provided
 ```
-###To-do list
+### To-do list
 ```
 Switch from procedural to object oriented programming
 Add assignments json file and dictionary, and command that allows reading/writing from the json
