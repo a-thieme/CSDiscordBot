@@ -15,7 +15,7 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
         if message.author.id in admins:
-            #if command.isAdmin():
+            # if command.isAdmin():
             pass
             # allow admin commands
 
@@ -46,57 +46,14 @@ def process_command(message):
             embed_builder.add_field(name=course, value=master_dict["Courses"][course]['name'], inline=True)
     # Info #
     elif leading == "info":
-        # some argument was given
-        # argument can be course and optionally the section
+        name = message.channel.name # get current channel name
         if len(split) > 2:
-            return "length is 2 or more (an course argument was given)"
-        # just info
-
-        # check if channel is in comp and is in the master dictionary
-        name = message.channel.name.lower()
-        if "comp" not in name or name.replace("-", "").upper() not in master_dict["Courses"]:
-            return error_embed("Invalid Channel")
+            name = split[2] # if there is an argument, replace the channel name with the argument
+        name = name.upper().replace("-", "") # format all channels to be uppercase in COMP1900 format
+        if "COMP" not in name or name not in master_dict["Courses"]: # find the correct course
+            return error_embed("No data is available for this course")
         else:
-            embed_builder.title = name.upper()  # + " Info"
-            # check for valid class shouldn't be needed because classes are added manually
-            # you can only do this because we know the format is COMP-XXXX
-            temp = name.split('-')
-            name = temp[0].upper() + temp[1]
-
-            temp_dict = master_dict["Courses"][name]
-
-            for big_key in temp_dict:
-                if big_key == "name":
-                    embed_builder.description = temp_dict["name"]
-                elif big_key == "prerequisites":
-                    pre_reqs = ""
-                    for req in temp_dict["prerequisites"]:
-                        if pre_reqs != "":
-                            pre_reqs += ", "
-                        pre_reqs += req
-                    embed_builder.add_field(name="Prerequisites", value=pre_reqs, inline=False)
-                elif big_key != "sections":
-                    embed_builder.add_field(name=big_key.title(), value=temp_dict[big_key], inline=False)
-                else:
-                    # todo:
-                    '''
-                    make this its own function so that you don't have to write it a
-                    second time for when people request a specific section
-                    '''
-                    for section in temp_dict["sections"]:
-                        string_builder = "```"
-                        for key in temp_dict["sections"][section]:
-                            line = key.title()
-                            while len(line) < 13:
-                                line += " "
-                            line += temp_dict["sections"][section][key] + "\n"
-                            string_builder += line
-                        string_builder += "```"
-                        embed_builder.add_field(
-                            name=section,
-                            value=string_builder,
-                            inline=False
-                        )
+            return get_class(name, embed_builder)
     elif leading == "professors":
         # header and description
         embed_builder.title = "Computer Science Professors"
@@ -134,6 +91,48 @@ def process_command(message):
 
 def process_admin_command():
     pass
+
+
+def get_class(course_name, embed):
+    embed.title = course_name.upper()  # + " Info"
+    # check for valid class shouldn't be needed because classes are added manually
+    # you can only do this because we know the format is COMP-XXXX
+
+    temp_dict = master_dict["Courses"][course_name]
+
+    for big_key in temp_dict:
+        if big_key == "name":
+            embed.description = temp_dict["name"]
+        elif big_key == "prerequisites":
+            pre_reqs = ""
+            for req in temp_dict["prerequisites"]:
+                if pre_reqs != "":
+                    pre_reqs += ", "
+                pre_reqs += req
+            embed.add_field(name="Prerequisites", value=pre_reqs, inline=False)
+        elif big_key != "sections":
+            embed.add_field(name=big_key.title(), value=temp_dict[big_key], inline=False)
+        else:
+            # todo:
+            '''
+            make this its own function so that you don't have to write it a
+            second time for when people request a specific section
+            '''
+            for section in temp_dict["sections"]:
+                string_builder = "```"
+                for key in temp_dict["sections"][section]:
+                    line = key.title()
+                    while len(line) < 13:
+                        line += " "
+                    line += temp_dict["sections"][section][key] + "\n"
+                    string_builder += line
+                string_builder += "```"
+                embed.add_field(
+                    name=section,
+                    value=string_builder,
+                    inline=False
+                )
+    return embed
 
 
 def error_embed(description):
