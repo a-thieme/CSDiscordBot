@@ -114,6 +114,19 @@
       "days": "MW",
       "time": "2:20-3:45"
     },
+    "COMP4151": {
+      "name": "Intro to Data Science",
+      "hours": "3.000",
+      "prerequisites":["COMP2150", "MATH4614 or MATH4635"],
+      "sections" : {
+        "001" : {
+          "location": "DH 119",
+          "instructor": "Vinhthuy T Phan",
+          "days": "TR",
+          "time": "1:00-2:25"
+        }
+      }
+    },
     "COMP4270": {
       "name": "Operating Systems",
       "hours": "3.000",
