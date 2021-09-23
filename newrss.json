@@ -1,0 +1,21 @@
+{
+  "Classes":
+  {
+    "Subject":
+    {
+      "Number":
+      {
+        "name": "",
+        "hours":"",
+        "prerequisites":[],
+        "Section Number" : {
+          "location":"",
+          "instructor":"",
+          "days": "",
+          "time": ""
+        },
+        "RSS_ID": ""
+      }
+    }
+  }
+}
