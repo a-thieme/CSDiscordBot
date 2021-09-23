@@ -14,7 +14,7 @@ def get_info(number):
     individual_dict['course'] = temp[1]
     individual_dict['section'] = temp[2]
     individual_dict['id'] = number
-    return feedparser.parse(link)['feed']['title']
+    return individual_dict
 
 
 def parse_links(lower, upper):
