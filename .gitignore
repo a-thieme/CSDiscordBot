@@ -5,6 +5,7 @@ __pycache__/
 
 # local pycharm config files
 .idea
+#all_classes_fall_21.xlsx
 
 # C extensions
 *.so
