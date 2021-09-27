@@ -33,6 +33,9 @@ def process_command(message):
     embed_builder = discord.Embed(color=discord.Color.blue())
     leading = split[1]
 
+    # Help #
+    # print all functions
+
     # Ping #
     if leading == "ping":
         embed_builder.title = "Check your latency"
