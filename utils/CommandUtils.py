@@ -5,5 +5,10 @@ def get_formatted_aliases(command):
             formatted += command.aliases[i].capitalize() + ""
         else:
             formatted += command.aliases[i].capitalize() + ", "
-    return formatted
+    if not formatted:
+        return ""
+    return "[ *" + formatted + "* ]"
 
+def join_args(args):
+    del args[:2]
+    return " ".join(args)

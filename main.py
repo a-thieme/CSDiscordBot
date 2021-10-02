@@ -3,19 +3,13 @@ import json
 import discord
 from discord import DMChannel
 
-from commands.CoursesCommand import CoursesCommand
-from commands.FacultyCommand import FacultyCommand
-from commands.HelpCommand import HelpCommand
-from commands.InfoCommand import InfoCommand
-from commands.NewsCommand import NewsCommand
-from commands.ProfessorCommand import ProfessorCommand
-from commands.TestCommand import TestCommand
-from commands.PingCommand import PingCommand
+from commands import *
 from core.CommandEvent import CommandEvent
 
 
 class MyClient(discord.Client):
-    cmds = [PingCommand(), TestCommand(), HelpCommand(), ProfessorCommand(), FacultyCommand(), InfoCommand(), CoursesCommand(), NewsCommand()]
+    cmds = [PingCommand(), TestCommand(), HelpCommand(), ProfessorCommand(), FacultyCommand(), InfoCommand(), CoursesCommand(), NewsCommand(), AnnounceCommand()]
+    admins = [225411938866167808, 229392999145144321]
     cs_input_file = open("cs_info.json")
     master_dict = json.load(cs_input_file)
     rss_input_file = open("rss.json")
@@ -29,12 +23,13 @@ class MyClient(discord.Client):
             return
         if isinstance(message.channel, DMChannel):
             return
-        message.content = message.content.lower()
-        if message.content.startswith("~cs "):
-            args = message.content.replace("~cs ", "", 1).split(" ")
+        if message.content.lower().startswith("~cs "):
+            args = message.content.lower().replace("~cs ", "", 1).split(" ")
             cmd = args[0]
             args.pop(0)
             locate_command = find_command(cmd, self)
+            if isinstance(locate_command, AnnounceCommand):
+                args = message.content.split(" ")
             if locate_command is not None:
                 cmd_event = CommandEvent(message, locate_command, args, self)
                 await cmd_event.execute_checks()
@@ -53,7 +48,6 @@ def find_command(cmd_input, bot):
     for i in range(len(bot.cmds)):
         if bot.cmds[i].name.lower() == cmd_input.lower() or cmd_input.lower() in bot.cmds[i].aliases:
             return bot.cmds[i]
-            break
     return None
 
 

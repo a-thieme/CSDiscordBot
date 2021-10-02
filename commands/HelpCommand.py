@@ -25,7 +25,7 @@ class HelpCommand(Command):
         all_commands = bot.cmds
         for i in range(len(all_commands)):
             cmd = all_commands[i]
-            embed_builder.add_field(name=cmd.name.capitalize() + "    [ *" + CommandUtils.get_formatted_aliases(cmd) + "* ]",
+            embed_builder.add_field(name=cmd.name.capitalize() + "    " + CommandUtils.get_formatted_aliases(cmd),
                                     value=cmd.help,
                                     inline=False
                                     )
