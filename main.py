@@ -30,8 +30,8 @@ class CSBot(discord.Client):
             return
         if isinstance(message.channel, DMChannel):
             return
-        if message.content.lower().startswith("~cs "):
-            args = message.content.lower().replace("~cs ", "", 1).split(" ")
+        if message.content.lower().startswith("#cs "):
+            args = message.content.lower().replace("#cs ", "", 1).split(" ")
             cmd = args[0]
             args.pop(0)
             locate_command = find_command(cmd, self)
