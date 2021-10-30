@@ -6,8 +6,8 @@ class AnnounceCommand(Command):
     def __init__(self):
         self.name = "announce"
         self.help = "Announces a message to the server"
-        self.category = "Utility"
-        self.required_arguments = 0
+        self.category = "Moderation"
+        self.required_arguments = 1
         self.required_role = "Community Staff"
         self.mod_command = False
         self.user_permissions = None
@@ -16,7 +16,7 @@ class AnnounceCommand(Command):
         self.aliases = []
 
     @staticmethod
-    async def execute(message, bot, args):
+    async def execute(message, bot, args, embed):
         announcements = bot.get_channel(748159572283490406)  # announcements channel
         args = CommandUtils.join_args(args)
         await announcements.send(args)

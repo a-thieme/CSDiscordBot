@@ -1,5 +1,3 @@
-import discord
-
 from core.Command import Command
 from utils import JsonUtils
 
@@ -18,18 +16,17 @@ class InfoCommand(Command):
         self.aliases = ["course", "class"]
 
     @staticmethod
-    async def execute(message, bot, args):
+    async def execute(message, bot, args, embed):
         course_dict = JsonUtils.get_course_dict(bot)
-        embed_builder = discord.Embed(color=discord.Color.blue())
         name = message.channel.name
         if args:
             name = args[0]
         name = name.upper().replace("-", "")
         if "COMP" not in name or name not in course_dict:
-            embed_builder.description = "No data is available for this course"
-            await message.channel.send(embed=embed_builder)
+            embed.description = "No data is available for this course"
+            await message.channel.send(embed=embed)
             return
-        await message.channel.send(embed=get_class(name, course_dict, embed_builder))
+        await message.channel.send(embed=get_class(name, course_dict, embed))
 
 
 def get_class(course_name, course_dict, embed):
@@ -37,6 +34,8 @@ def get_class(course_name, course_dict, embed):
     # check for valid class shouldn't be needed because classes are added manually
     # you can only do this because we know the format is COMPXXXX
     course_dict = course_dict[course_name]
+    if "sections" not in course_dict.keys():
+        course_dict.pop("rss")
     for big_key in course_dict:
         if big_key == "name":
             embed.description = course_dict["name"]
@@ -51,6 +50,7 @@ def get_class(course_name, course_dict, embed):
             embed.add_field(name=big_key.title(), value=course_dict[big_key], inline=False)
         else:
             for section in course_dict["sections"]:
+                course_dict["sections"][section].pop("rss")
                 string_builder = "```"
                 for key in course_dict["sections"][section]:
                     line = key.title()

@@ -1,5 +1,3 @@
-import discord
-
 from core.Command import Command
 
 
@@ -17,8 +15,7 @@ class PingCommand(Command):
         self.aliases = ["latency"]
 
     @staticmethod
-    async def execute(message, bot, args):
-        embed_builder = discord.Embed(color=discord.Color.blue())
-        embed_builder.title = "Check your latency"
-        embed_builder.description = 'Pong! {0}ms'.format(round(bot.latency, 3))
-        await message.channel.send(embed=embed_builder)
+    async def execute(message, bot, args, embed):
+        embed.title = "Check your latency"
+        embed.description = 'Pong! {0}ms'.format(round(bot.latency, 3))
+        await message.channel.send(embed=embed)

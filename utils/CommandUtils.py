@@ -9,6 +9,14 @@ def get_formatted_aliases(command):
         return ""
     return "[ *" + formatted + "* ]"
 
+
 def join_args(args):
     del args[:2]
     return " ".join(args)
+
+
+def find_command(cmd_input, bot):
+    for i in range(len(bot.cmds)):
+        if bot.cmds[i].name.lower() == cmd_input.lower() or cmd_input.lower() in bot.cmds[i].aliases:
+            return bot.cmds[i]
+    return None

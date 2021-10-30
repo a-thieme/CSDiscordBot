@@ -1,5 +1,3 @@
-import discord
-
 from core.Command import Command
 from utils import JsonUtils
 
@@ -18,11 +16,10 @@ class CoursesCommand(Command):
         self.aliases = ["classes"]
 
     @staticmethod
-    async def execute(message, bot, args):
+    async def execute(message, bot, args, embed):
         course_dict = JsonUtils.get_course_dict(bot)
-        embed_builder = discord.Embed(color=discord.Color.blue())
-        embed_builder.title = "Computer Science (Major) Courses"
-        embed_builder.description = "A list of the required courses for the CS Major"
+        embed.title = "Computer Science (Major) Courses"
+        embed.description = "A list of the required courses for the CS Major"
         for course in course_dict:
-            embed_builder.add_field(name=course, value=course_dict[course]['name'], inline=True)
-        await message.channel.send(embed=embed_builder)
+            embed.add_field(name=course, value=course_dict[course]['name'], inline=True)
+        await message.channel.send(embed=embed)

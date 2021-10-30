@@ -1,4 +1,3 @@
-import discord
 import feedparser
 from bs4 import BeautifulSoup
 
@@ -21,12 +20,14 @@ def get_news(course_name, rss_dict, embed):
     news = feedparser.parse(
         "https://elearn.memphis.edu/d2l/le/news/rss/" + key + "/course?token=ax72b4q7smuiounj1185cb")
     entries = news.entries
+    # print(news.headers.get(""))
     if len(entries) == 0:
         embed.description = "No news has been recently posted for this course."
         return embed
     for entry in entries:
-        embed.add_field(name="**" + entry.title + "**", value=strip_text(entry.summary), inline=False)
-        strip_text(entry.summary)
+        num_of_fields = len(entry) // 1024 + 1
+        for i in range(num_of_fields):
+            embed.add_field(name="**" + entry.title + "**", value=strip_text(entry.summary[i*1024:i+1*1024]), inline=False)
     return embed
 
 
@@ -44,15 +45,14 @@ class NewsCommand(Command):
         self.aliases = ["updates", "newsfeed"]
 
     @staticmethod
-    async def execute(message, bot, args):
+    async def execute(message, bot, args, embed):
         rss_dict = JsonUtils.get_rss_dict(bot)
-        embed_builder = discord.Embed(color=discord.Color.blue())
         name = message.channel.name
         if args:
             name = args[0]
         name = name.upper().replace("-", "")
         if "COMP" not in name or name not in rss_dict:
-            embed_builder.description = "No data is available for this course"
-            await message.channel.send(embed=embed_builder)
+            embed.description = "No data is available for this course"
+            await message.channel.send(embed=embed)
             return
-        await message.channel.send(embed=get_news(name, rss_dict, embed_builder))
+        await message.channel.send(embed=get_news(name, rss_dict, embed))

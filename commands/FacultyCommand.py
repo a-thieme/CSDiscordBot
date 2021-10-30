@@ -1,7 +1,4 @@
-import discord
-
 from core.Command import Command
-from utils import JsonUtils
 
 
 class FacultyCommand(Command):
@@ -18,11 +15,10 @@ class FacultyCommand(Command):
         self.aliases = ["professors", "staff"]
 
     @staticmethod
-    async def execute(message, bot, args):
-        prof_dict = JsonUtils.get_prof_dict(bot)
-        embed_builder = discord.Embed(color=discord.Color.blue())
-        embed_builder.title = "Computer Science Professors"
-        embed_builder.description = "A list of all Full-Time Faculty in the Computer Science Department"
-        for professor in prof_dict: # adding all the individual professors
-            embed_builder.add_field(name=professor, value=prof_dict[professor]["title"], inline=True)
-        await message.channel.send(embed=embed_builder)
+    async def execute(message, bot, args, embed):
+        professors = bot.professors
+        embed.title = "Computer Science Professors"
+        embed.description = "A list of all Full-Time Faculty in the Computer Science Department"
+        for professor in professors:  # adding all the individual professors
+            embed.add_field(name=professor.name, value="[" + professor.title + "](https://www.memphis.edu/cs/people/faculty_pages/" + professor.get_web_name() + ".php)", inline=True)
+        await message.channel.send(embed=embed)

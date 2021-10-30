@@ -1,6 +1,6 @@
-import feedparser
 import json
-import threading
+
+import feedparser
 
 master = {}
 
