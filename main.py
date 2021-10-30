@@ -9,12 +9,12 @@ from utils import JsonUtils
 from utils.CommandUtils import find_command
 
 
-class MyClient(discord.Client):
+class CSBot(discord.Client):
     cmds = [PingCommand(), TestCommand(), HelpCommand(), ProfessorCommand(), FacultyCommand(), InfoCommand(),
             CoursesCommand(), NewsCommand(), AnnounceCommand(), ShutdownCommand(), IgnoreCommand()]
     courses = []
     professors = []
-    admins = [225411938866167808, 229392999145144321]
+    admins = []
     ignored_users = []
     cs_input_file = open("cs_info.json")
     master_dict = json.load(cs_input_file)
@@ -22,17 +22,16 @@ class MyClient(discord.Client):
     rss_dict = json.load(rss_input_file)
 
     async def on_ready(self):
+        JsonUtils.create_objects(self)
         print('Logged on as', self.user)
-
-    JsonUtils.create_professor_objects(master_dict["Professors"], professors)
 
     async def on_message(self, message):
         if message.author == self.user:
             return
         if isinstance(message.channel, DMChannel):
             return
-        if message.content.lower().startswith("#cs "):
-            args = message.content.lower().replace("#cs ", "", 1).split(" ")
+        if message.content.lower().startswith("~cs "):
+            args = message.content.lower().replace("~cs ", "", 1).split(" ")
             cmd = args[0]
             args.pop(0)
             locate_command = find_command(cmd, self)
@@ -48,7 +47,7 @@ class MyClient(discord.Client):
 
 
 def main():  # main method
-    client = MyClient()
+    client = CSBot()
     client.run(open("token.txt", "r").read())
 
 
