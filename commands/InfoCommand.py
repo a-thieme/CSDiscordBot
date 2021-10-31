@@ -1,5 +1,4 @@
 from core.Command import Command
-from utils import JsonUtils
 
 
 class InfoCommand(Command):
@@ -17,51 +16,37 @@ class InfoCommand(Command):
 
     @staticmethod
     async def execute(message, bot, args, embed):
-        course_dict = JsonUtils.get_course_dict(bot)
         name = message.channel.name
-        if args:
+        courses = bot.courses
+        if args:  # if not empty
             name = args[0]
         name = name.upper().replace("-", "")
-        if "COMP" not in name or name not in course_dict:
-            embed.description = "No data is available for this course"
-            await message.channel.send(embed=embed)
-            return
-        await message.channel.send(embed=get_class(name, course_dict, embed))
+        for course in courses:
+            if name == course.code:
+                await message.channel.send(embed=get_class_info(course, embed))
+                return
+        embed.title = name.upper() + " Info"
+        embed.description = "Unable to locate that course."
+        await message.channel.send(embed=embed)
 
 
-def get_class(course_name, course_dict, embed):
-    embed.title = course_name.upper()  # + " Info"
-    # check for valid class shouldn't be needed because classes are added manually
-    # you can only do this because we know the format is COMPXXXX
-    course_dict = course_dict[course_name]
-    if "sections" not in course_dict.keys():
-        course_dict.pop("rss")
-    for big_key in course_dict:
-        if big_key == "name":
-            embed.description = course_dict["name"]
-        elif big_key == "prerequisites":
-            pre_reqs = ""
-            for req in course_dict["prerequisites"]:
-                if pre_reqs != "":
-                    pre_reqs += ", "
-                pre_reqs += req
-            embed.add_field(name="Prerequisites", value=pre_reqs, inline=False)
-        elif big_key != "sections":
-            embed.add_field(name=big_key.title(), value=course_dict[big_key], inline=False)
-        else:
-            for section in course_dict["sections"]:
-                course_dict["sections"][section].pop("rss")
-                string_builder = "```"
-                for key in course_dict["sections"][section]:
-                    line = key.title()
-                    while len(line) < 13:
-                        line += " "
-                    line += course_dict["sections"][section][key] + "\n"
-                    string_builder += line
-                string_builder += "```"
-                embed.add_field(
-                    name=section,
-                    value=string_builder,
-                    inline=False
-                )
+def get_class_info(course, embed):
+    embed.title = course.code.upper() + " Info"
+    embed.description = course.name
+    embed.add_field(name="Credit Hours", value=course.hours, inline=False)
+    if course.prerequisites:  # if not empty
+        pre_reqs = ""
+        for req in course.prerequisites:
+            if pre_reqs != "":
+                pre_reqs += ", "
+            pre_reqs += req
+        embed.add_field(name="Prerequisites", value=pre_reqs, inline=False)
+    for section in course.sections:
+        string_builder = "```"
+        string_builder += ("Location     " + section.location + "\n")
+        string_builder += ("Instructor   " + section.instructor + "\n")
+        string_builder += ("Days         " + section.days + "\n")
+        string_builder += ("Time         " + section.time)
+        string_builder += "```"
+        embed.add_field(name=section.section_num, value=string_builder, inline=False)
     return embed

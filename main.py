@@ -18,8 +18,6 @@ class CSBot(discord.Client):
     ignored_users = []
     cs_input_file = open("cs_info.json")
     master_dict = json.load(cs_input_file)
-    rss_input_file = open("rss.json")
-    rss_dict = json.load(rss_input_file)
 
     async def on_ready(self):
         JsonUtils.create_objects(self)

@@ -9,9 +9,9 @@
           "instructor": "William Baggett",
           "days": "MW",
           "time": "12:40-2:05",
-          "rss" : {
-            "id" : "N/A",
-            "token" : "N/A"
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
           }
         },
         "002": {
@@ -19,9 +19,9 @@
           "instructor": "Kriangsiri Malasri",
           "days": "TR",
           "time": "2:40-4:05",
-          "rss" : {
-            "id" : "N/A",
-            "token" : "N/A"
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
           }
         },
         "003": {
@@ -29,35 +29,47 @@
           "instructor": "Kriangsiri Malasri",
           "days": "TR",
           "time": "9:40-11:05",
-          "rss" : {
-            "id" : "N/A",
-            "token" : "N/A"
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
           }
         }
-      }
+      },
+      "prerequisites": [
+      ]
     },
     "COMP1950": {
       "name": "Ethics and Technology",
       "hours": "1.000",
-      "location": "DH 129",
-      "instructor": "William Baggett",
-      "days": "W",
-      "time": "5:30-6:30",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      "sections": {
+        "001": {
+          "location": "DH 129",
+          "instructor": "William Baggett",
+          "days": "W",
+          "time": "5:30-6:30",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
+      "prerequisites": [
+      ]
     },
     "COMP2150": {
       "name": "CS2: OOP and Data Structures",
       "hours": "4.000",
-      "location": "DH 223",
-      "instructor": "James Yu",
-      "days": "MW",
-      "time": "5:30-7:30",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
+      "sections": {
+        "001": {
+          "location": "DH 223",
+          "instructor": "James Yu",
+          "days": "MW",
+          "time": "5:30-7:30",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
       },
       "prerequisites": [
         "COMP1900",
@@ -77,9 +89,9 @@
           "instructor": "Nirman Kumar",
           "days": "TR",
           "time": "9:05-11:05",
-          "rss" : {
-            "id" : "N/A",
-            "token" : "N/A"
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
           }
         },
         "002": {
@@ -87,9 +99,9 @@
           "instructor": "Kriangsiri Malasri",
           "days": "TR",
           "time": "5:30-7:30",
-          "rss" : {
-            "id" : "N/A",
-            "token" : "N/A"
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
           }
         }
       }
@@ -97,140 +109,176 @@
     "COMP3115": {
       "name": "Database Process and Design",
       "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "DH 129",
+          "instructor": "William Baggett",
+          "days": "TR",
+          "time": "5:30-6:55",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
       "prerequisites": [
         "COMP2150"
-      ],
-      "location": "DH 129",
-      "instructor": "William Baggett",
-      "days": "TR",
-      "time": "5:30-6:55",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP3410": {
       "name": "Computer Org/Architecture",
       "hours": "4.000",
+      "sections": {
+        "001": {
+          "location": "DH 223",
+          "instructor": "James Yu",
+          "days": "MW",
+          "time": "2:20-4:20",
+          "rss": {
+            "id": "8762482",
+            "token": "ax72b4q7smuiounj1185cb"
+          }
+        }
+      },
       "prerequisites": [
         "COMP2150"
-      ],
-      "location": "DH 223",
-      "instructor": "James Yu",
-      "days": "MW",
-      "time": "2:20-4:20",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP3825": {
       "name": "Network/Info Assurance",
       "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "ACB 257",
+          "instructor": "Kan Yang",
+          "days": "TR",
+          "time": "11:20-12:45",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
       "prerequisites": [
         "MATH4614"
-      ],
-      "location": "ACB 257",
-      "instructor": "Kan Yang",
-      "days": "TR",
-      "time": "11:20-12:45",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP4030": {
       "name": "Design/Analysis Algorithms",
       "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "DH 123",
+          "instructor": "Vinhthuy Phan",
+          "days": "TR",
+          "time": "9:40-11:05",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
       "prerequisites": [
         "COMP2700"
-      ],
-      "location": "DH 123",
-      "instructor": "Vinhthuy Phan",
-      "days": "TR",
-      "time": "9:40-11:05",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP4040": {
       "name": "Programming Languages",
       "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "DH 103",
+          "instructor": "Fatih Sen",
+          "days": "MW",
+          "time": "5:30-6:55",
+          "rss": {
+            "id": "8762492",
+            "token": "ax72b4q7smuiounj1185cb"
+          }
+        }
+      },
       "prerequisites": [
         "COMP2150"
-      ],
-      "location": "DH 103",
-      "instructor": "Fatih Sen",
-      "days": "MW",
-      "time": "5:30-6:55",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP4081": {
       "name": "Software Engineering",
       "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "DH 124",
+          "instructor": "Scott Fleming",
+          "days": "MW",
+          "time": "2:20-3:45",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
       "prerequisites": [
         "COMP2150"
-      ],
-      "location": "DH 124",
-      "instructor": "Scott Fleming",
-      "days": "MW",
-      "time": "2:20-3:45",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP4270": {
       "name": "Operating Systems",
       "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "ES 222",
+          "instructor": "Myounggyu Won",
+          "days": "MW",
+          "time": "12:40-2:05",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
       "prerequisites": [
         "COMP2150",
         "COMP3410"
-      ],
-      "location": "ES 222",
-      "instructor": "Myounggyu Won",
-      "days": "MW",
-      "time": "12:40-2:05",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP4601": {
       "name": "Models of Computation",
       "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "PAN 115",
+          "instructor": "Thomas Watson",
+          "days": "TR",
+          "time": "9:40-11:05",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
       "prerequisites": [
         "COMP4030"
-      ],
-      "location": "PAN 115",
-      "instructor": "Thomas Watson",
-      "days": "TR",
-      "time": "9:40-11:05",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     },
     "COMP4882": {
       "name": "Capstone Software Project",
-      "hours": "3",
+      "hours": "3.000",
+      "sections": {
+        "001": {
+          "location": "DH 123",
+          "instructor": "James Yu",
+          "days": "TR",
+          "time": "2:40-4:05",
+          "rss": {
+            "id": "N/A",
+            "token": "N/A"
+          }
+        }
+      },
       "prerequisites": [
         "COMP3115",
         "COMP4030",
         "COMP4081"
-      ],
-      "location": "DH 123",
-      "instructor": "James Yu",
-      "days": "TR",
-      "time": "2:40-4:05",
-      "rss" : {
-        "id" : "N/A",
-        "token" : "N/A"
-      }
+      ]
     }
   },
   "Professors": {
@@ -347,11 +395,11 @@
   },
   "IDS": {
     "admin": [
-        229392999145144321,
-        225411938866167808
-      ],
+      229392999145144321,
+      225411938866167800
+    ],
     "blacklist": [
-      799415355826372618
-      ]
+      799415355826372600
+    ]
   }
 }

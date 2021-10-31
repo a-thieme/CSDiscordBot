@@ -21,6 +21,7 @@ class Professor:
         return username.replace(".", "")
 
     def get_web_name(self):
-        webname = self.name.replace(" ", "-")
+        webname = self.name.replace("\"Top\" ", "")
+        webname = webname.replace(" ", "-")
         webname = webname.lower()
         return webname

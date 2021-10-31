@@ -18,6 +18,9 @@ class IgnoreCommand(Command):
     async def execute(message, bot, args, embed):
         to_be_ignored = message.mentions[0]
         embed.title = "Ignore a user"
-        bot.ignored_users.append(to_be_ignored.id)
-        embed.description = to_be_ignored.name + ' has been blacklisted from using bot commands.'
+        if to_be_ignored.id not in bot.admins:
+            bot.ignored_users.append(to_be_ignored.id)
+            embed.description = to_be_ignored.name + ' has been blacklisted from using bot commands.'
+        else:
+            embed.description = "You cannot blacklist an admin."
         await message.channel.send(embed=embed)

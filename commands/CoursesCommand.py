@@ -1,5 +1,4 @@
 from core.Command import Command
-from utils import JsonUtils
 
 
 class CoursesCommand(Command):
@@ -17,9 +16,9 @@ class CoursesCommand(Command):
 
     @staticmethod
     async def execute(message, bot, args, embed):
-        course_dict = JsonUtils.get_course_dict(bot)
+        courses = bot.courses
         embed.title = "Computer Science (Major) Courses"
         embed.description = "A list of the required courses for the CS Major"
-        for course in course_dict:
-            embed.add_field(name=course, value=course_dict[course]['name'], inline=True)
+        for course in courses:
+            embed.add_field(name=course.code, value=course.name, inline=True)
         await message.channel.send(embed=embed)

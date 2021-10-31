@@ -10,17 +10,19 @@ def strip_text(text):
     return soup.getText()
 
 
-def get_news(course_name, rss_dict, embed):
-    embed.title = course_name.upper() + " News"
-    key = rss_dict[course_name]  # retrieves the rss feed value
-    if key == "n/a":
+def get_news(course, embed):
+    embed.title = course.code.upper() + " News"
+    section = course.sections[0]  # TODO currently we only pull news from section 001, other sections get ignored.
+    print(section.rss)
+    key = section.rss["id"]  # retrieves the rss feed value
+    token = section.rss["token"]
+    print(key, token)
+    if key == "N/A":
         embed.description = "No news data is available for this course. If you would like to receive news, please contact Adam or Marshall"
         return embed
-    # if the key is available, do stuff
     news = feedparser.parse(
-        "https://elearn.memphis.edu/d2l/le/news/rss/" + key + "/course?token=ax72b4q7smuiounj1185cb")
+        "https://elearn.memphis.edu/d2l/le/news/rss/" + key + "/course?token=" + token)
     entries = news.entries
-    # print(news.headers.get(""))
     if len(entries) == 0:
         embed.description = "No news has been recently posted for this course."
         return embed
@@ -29,7 +31,6 @@ def get_news(course_name, rss_dict, embed):
         for i in range(num_of_fields):
             embed.add_field(name="**" + entry.title + "**", value=strip_text(entry.summary[i*1024:i+1*1024]), inline=False)
     return embed
-
 
 class NewsCommand(Command):
     def __init__(self):
@@ -46,13 +47,15 @@ class NewsCommand(Command):
 
     @staticmethod
     async def execute(message, bot, args, embed):
-        rss_dict = JsonUtils.get_rss_dict(bot)
         name = message.channel.name
-        if args:
+        courses = bot.courses
+        if args:  # if not empty
             name = args[0]
         name = name.upper().replace("-", "")
-        if "COMP" not in name or name not in rss_dict:
-            embed.description = "No data is available for this course"
-            await message.channel.send(embed=embed)
-            return
-        await message.channel.send(embed=get_news(name, rss_dict, embed))
+        for course in courses:
+            if name == course.code:
+                await message.channel.send(embed=get_news(course, embed))
+                return
+        embed.title = name.upper() + " Newsfeed"
+        embed.description = "Unable to locate that course."
+        await message.channel.send(embed=embed)
