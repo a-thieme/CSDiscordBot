@@ -25,5 +25,8 @@ class ProfessorCommand(Command):
                 embed.add_field(name="Office", value=prof.office, inline=False)
                 # adding thumbnail if it can be found
                 embed.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + prof.strip_email() + ".jpg")
-                break
+                await message.channel.send(embed=embed)
+                return
+        embed.title = " ".join(args)
+        embed.description = "Unable to locate that professor."
         await message.channel.send(embed=embed)
