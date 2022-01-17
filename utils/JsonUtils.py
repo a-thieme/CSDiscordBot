@@ -7,11 +7,6 @@ def create_objects(client):
     master_dict = client.master_dict
     create_professor_objects(master_dict["Professors"], client.professors)
     create_course_objects(master_dict["Courses"], client.courses)
-    for user_id in master_dict["IDS"]["admin"]:
-        client.admins.append(user_id)
-    for user_id in master_dict["IDS"]["blacklist"]:
-        client.ignored_users.append(user_id)
-
 
 def create_professor_objects(master_dict, array):
     print("Generating Professor objects . . . ")

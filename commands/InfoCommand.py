@@ -49,7 +49,7 @@ class InfoCommand(Command):
 
                     while True:
                         try:
-                            reaction, user = await bot.wait_for('reaction_add', timeout=20.0, check=check_react)
+                            reaction, user = await bot.wait_for('reaction_add', timeout=45.0, check=check_react)
                             if str(reaction) == "⏮":
                                 page_num = 1
                             if str(reaction) == "⏭":
@@ -73,7 +73,7 @@ def get_section_info(section):
     string_builder = "```"
     string_builder += ("Location     " + section.location + "\n")
     string_builder += ("Instructor   " + section.instructor + "\n")
-    string_builder += ("Days         " + section.days + "\n")
+    string_builder += ("Days         " + str(section.days).replace("nan", "N/A") + "\n")
     string_builder += ("Time         " + section.time)
     string_builder += "```"
     return string_builder

@@ -13,10 +13,8 @@ def strip_text(text):
 def get_news(course, embed):
     embed.title = course.code.upper() + " News"
     section = course.sections[0]  # TODO currently we only pull news from section 001, other sections get ignored.
-    print(section.rss)
     key = section.rss["id"]  # retrieves the rss feed value
     token = section.rss["token"]
-    print(key, token)
     if key == "N/A":
         embed.description = "No news data is available for this course. If you would like to receive news, please contact Adam or Marshall"
         return embed

@@ -20,5 +20,6 @@ class FacultyCommand(Command):
         embed.title = "Computer Science Professors"
         embed.description = "A list of all Full-Time Faculty in the Computer Science Department"
         for professor in professors:  # adding all the individual professors
-            embed.add_field(name=professor.name, value="[" + professor.title + "](https://www.memphis.edu/cs/people/faculty_pages/" + professor.get_web_name() + ".php)", inline=True)
+            if professor.email!="someone@memphis.edu":
+                embed.add_field(name=professor.name, value="[" + professor.title + "](https://www.memphis.edu/cs/people/faculty_pages/" + professor.get_web_name() + ".php)", inline=True)
         await message.channel.send(embed=embed)
