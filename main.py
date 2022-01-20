@@ -28,7 +28,7 @@ class CSBot(discord.Client):
             return
         if isinstance(message.channel, DMChannel):
             return
-        if message.content.lower().startswith("?"):
+        if message.content.startswith("?") and not message.content.endswith("?"):
             args = message.content.lower().replace("?", "", 1).split(" ")
             cmd = args[0]
             args.pop(0)
