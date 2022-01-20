@@ -41,9 +41,6 @@ class CSBot(discord.Client):
             if locate_command is not None:
                 cmd_event = CommandEvent(message, locate_command, args, self, embed)
                 await cmd_event.execute_checks()
-            else:
-                embed.description = "No command found"
-                await message.channel.send(embed=embed)
 
 
 def main():  # main method
