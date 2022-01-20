@@ -27,6 +27,3 @@ class ProfessorCommand(Command):
                 embed.set_thumbnail(url="https://www.memphis.edu/cs/images/people/" + prof.strip_email() + ".jpg")
                 await message.channel.send(embed=embed)
                 return
-        embed.title = " ".join(args)
-        embed.description = "Unable to locate that professor."
-        await message.channel.send(embed=embed)
