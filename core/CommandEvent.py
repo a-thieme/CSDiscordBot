@@ -25,7 +25,7 @@ class CommandEvent:
         if self.message.author.id in self.bot.ignored_users:
             return
 
-        if self.command.mod_command and self.message.author.id not in self.bot.admins:
+        if self.command.mod_command and self.message.author.id not in (229392999145144321, 225411938866167808):
             embed_builder.description = "This command is only for bot admins"
             await self.message.channel.send(embed=embed_builder)
             return  # admin command check
