@@ -15,7 +15,7 @@ class CSBot(discord.Client):
             CoursesCommand(), NewsCommand(), AnnounceCommand(), ShutdownCommand(), IgnoreCommand(), EvalCommand()]
     courses = []
     professors = []
-    conn = mysql.connector.connect(host='localhost', port=3306, user='root', password='')
+    conn = mysql.connector.connect(host='localhost', port=3306, user='root', password='', database="university")
     if conn.is_connected():
         print("Connection established to database")
     cs_input_file = open("cs_info.json")
