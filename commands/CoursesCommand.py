@@ -24,21 +24,22 @@ class CoursesCommand(Command):
         if args:  # if not empty
             name = args[0]
         name = name.upper().replace("-", "")
-        courses = bot.courses
-        title = name + " Courses"
-        description = "A list of all courses in the " + name +  " subject"
-        embed.title = title
-        embed.description = description
-        field_count = 0
-        overflow = discord.Embed(title=title, description=description, color=discord.Color.blue())
-        for course in courses:
-            if str(course.code).startswith(name):
-                if field_count <= 24:
-                    embed.add_field(name=course.code, value=course.name, inline=True)
-                else:
-                    overflow.add_field(name=course.code, value=course.name, inline=True)
-                field_count += 1
+        if re.match(r"([A-z]{3,4})", name) and len(name) <= 4:
+            courses = bot.courses
+            title = name + " Courses"
+            description = "A list of all courses in the " + name +  " subject"
+            embed.title = title
+            embed.description = description
+            field_count = 0
+            overflow = discord.Embed(title=title, description=description, color=discord.Color.blue())
+            for course in courses:
+                if str(course.code).startswith(name):
+                    if field_count <= 24:
+                        embed.add_field(name=course.code, value=course.name, inline=True)
+                    else:
+                        overflow.add_field(name=course.code, value=course.name, inline=True)
+                    field_count += 1
 
-        await message.channel.send(embed=embed)
-        if len(overflow.fields)>0:
-            await message.channel.send(embed=overflow)
+            await message.channel.send(embed=embed)
+            if len(overflow.fields)>0:
+                await message.channel.send(embed=overflow)
