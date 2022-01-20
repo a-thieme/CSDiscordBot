@@ -1,6 +1,7 @@
 import json
 
 import discord
+import mysql.connector
 from discord import DMChannel
 
 from commands import *
@@ -11,11 +12,12 @@ from utils.CommandUtils import find_command
 
 class CSBot(discord.Client):
     cmds = [PingCommand(), TestCommand(), HelpCommand(), ProfessorCommand(), FacultyCommand(), InfoCommand(),
-            CoursesCommand(), NewsCommand(), AnnounceCommand(), ShutdownCommand(), IgnoreCommand()]
+            CoursesCommand(), NewsCommand(), AnnounceCommand(), ShutdownCommand(), IgnoreCommand(), EvalCommand()]
     courses = []
     professors = []
-    admins = []
-    ignored_users = []
+    conn = mysql.connector.connect(host='localhost', port=3306, user='root', password='')
+    if conn.is_connected():
+        print("Connection established to database")
     cs_input_file = open("cs_info.json")
     master_dict = json.load(cs_input_file)
 

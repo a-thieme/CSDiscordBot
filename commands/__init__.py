@@ -9,3 +9,4 @@ from .PingCommand import PingCommand
 from .ProfessorCommand import ProfessorCommand
 from .ShutdownCommand import ShutdownCommand
 from .TestCommand import TestCommand
+from .EvalCommand import EvalCommand
