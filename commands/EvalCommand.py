@@ -17,7 +17,7 @@ class EvalCommand(Command):
     @staticmethod
     async def execute(message, bot, args, embed):
         cursor = bot.conn.cursor()
-        cursor.execute("select * from subject")
+        cursor.execute(" ".join(args))
         myresult = cursor.fetchall()
         await message.channel.send(myresult)
         cursor.close()
