@@ -1,4 +1,5 @@
 import asyncio
+import re
 
 from core.Command import Command
 
@@ -24,49 +25,50 @@ class InfoCommand(Command):
         if args:  # if not empty
             name = args[0]
         name = name.upper().replace("-", "")
-        for course in courses:
-            if name == course.code:
-                num_of_sections = len(course.sections)
-                has_multiple_sections = True if num_of_sections > 1 else False  # If the course has multiple sections set this boolean to true
-                course_info = get_class_info(course, embed, 0)  # Get the course information
-                msg = await message.channel.send(embed=course_info)
-                if has_multiple_sections:
+        if re.match(r"([A-z]{3,4}[0-9]{3,4})", name) and len(name)<=8:
+            for course in courses:
+                if name == course.code:
+                    num_of_sections = len(course.sections)
+                    has_multiple_sections = True if num_of_sections > 1 else False  # If the course has multiple sections set this boolean to true
+                    course_info = get_class_info(course, embed, 0)  # Get the course information
+                    msg = await message.channel.send(embed=course_info)
+                    if has_multiple_sections:
 
-                    for reaction in reactemojis:  #
-                        await msg.add_reaction(reaction)
-                    await msg.edit(embed=embed,
-                                   content="**Click on the Emotes below to scroll through the Sections for this Course.**")
-                    page_num = 1
+                        for reaction in reactemojis:  #
+                            await msg.add_reaction(reaction)
+                        await msg.edit(embed=embed,
+                                       content="**Click on the Emotes below to scroll through the Sections for this Course.**")
+                        page_num = 1
 
-                    def check_react(reaction, user):
-                        if reaction.message.id != msg.id:
-                            return False
-                        if user != message.author:
-                            return False
-                        if str(reaction.emoji) not in reactemojis:
-                            return False
-                        return True
+                        def check_react(reaction, user):
+                            if reaction.message.id != msg.id:
+                                return False
+                            if user != message.author:
+                                return False
+                            if str(reaction.emoji) not in reactemojis:
+                                return False
+                            return True
 
-                    while True:
-                        try:
-                            reaction, user = await bot.wait_for('reaction_add', timeout=45.0, check=check_react)
-                            if str(reaction) == "⏮":
-                                page_num = 1
-                            if str(reaction) == "⏭":
-                                page_num = num_of_sections
-                            if str(reaction) == "⏪" and page_num != 1:
-                                page_num -= 1
-                            if str(reaction) == "⏩" and page_num != num_of_sections:
-                                page_num += 1
-                            course_info = get_class_info(course, embed, page_num-1)  # Get the course information
-                            await msg.edit(embed=course_info)
-                            await msg.remove_reaction(reaction, user)
-                        except asyncio.TimeoutError:
-                            break
-                return
-        embed.title = name.upper() + " Info"
-        embed.description = "Unable to locate that course."
-        await message.channel.send(embed=embed)
+                        while True:
+                            try:
+                                reaction, user = await bot.wait_for('reaction_add', timeout=45.0, check=check_react)
+                                if str(reaction) == "⏮":
+                                    page_num = 1
+                                if str(reaction) == "⏭":
+                                    page_num = num_of_sections
+                                if str(reaction) == "⏪" and page_num != 1:
+                                    page_num -= 1
+                                if str(reaction) == "⏩" and page_num != num_of_sections:
+                                    page_num += 1
+                                course_info = get_class_info(course, embed, page_num-1)  # Get the course information
+                                await msg.edit(embed=course_info)
+                                await msg.remove_reaction(reaction, user)
+                            except asyncio.TimeoutError:
+                                break
+                    return
+            embed.title = name.upper() + " Info"
+            embed.description = "Unable to locate that course."
+            await message.channel.send(embed=embed)
 
 
 def get_section_info(section):
