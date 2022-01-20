@@ -39,6 +39,6 @@ class CoursesCommand(Command):
                     overflow.add_field(name=course.code, value=course.name, inline=True)
                 field_count += 1
 
-            await message.channel.send(embed=embed)
+        await message.channel.send(embed=embed)
         if len(overflow.fields)>0:
             await message.channel.send(embed=overflow)
