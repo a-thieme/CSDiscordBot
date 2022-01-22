@@ -20,3 +20,14 @@ Assignment storage that takes user input and stores it for later
 Fill out rss information for most sections
 Accept math commands
 ```
+
+### Local Dev
+
+Clone the repo, the run the powershell script `create_env.ps1`
+
+Make sure to have `git` cli installed
+
+Open powershell (preferably in administrator mode)
+```cmd
+.\create_env.ps1
+```
