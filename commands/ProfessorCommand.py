@@ -40,7 +40,7 @@ class ProfessorCommand(Command):
                 for reaction in reactemojis:  #
                     await msg.add_reaction(reaction)
                 await msg.edit(embed=embed,
-                               content="**Click on the Emotes below to scroll through Professors matching the name" + name + ".**")
+                               content="**Click on the Emotes below to scroll through Professors matching the name " + name + ".**")
                 page_num = 1
 
                 def check_react(reaction, user):
