@@ -31,3 +31,8 @@ Open powershell (preferably in administrator mode)
 ```cmd
 .\create_env.ps1
 ```
+
+Activate the environment at anytime using
+```cmd
+.\venv\Scripts\activate
+```
