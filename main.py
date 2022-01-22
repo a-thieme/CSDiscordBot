@@ -6,23 +6,28 @@ from discord import DMChannel
 
 from commands import *
 from core import CommandEvent
-from utils import JsonUtils
+from utils import JsonUtils, Database
 from utils.CommandUtils import find_command
 
 
 class CSBot(discord.Client):
-    cmds = [PingCommand(), TestCommand(), HelpCommand(), ProfessorCommand(), FacultyCommand(), InfoCommand(),
-            CoursesCommand(), NewsCommand(), AnnounceCommand(), ShutdownCommand(), IgnoreCommand(), EvalCommand()]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cmds = [PingCommand(), TestCommand(), HelpCommand(), ProfessorCommand(), FacultyCommand(),
+                     InfoCommand(),
+                     CoursesCommand(), NewsCommand(), AnnounceCommand(), ShutdownCommand(), IgnoreCommand(),
+                     EvalCommand()]
+        self.conn = None
     courses = []
     professors = []
-    conn = mysql.connector.connect(host='localhost', port=3306, user='root', password='', database="university")
-    if conn.is_connected():
-        print("Connection established to database")
     cs_input_file = open("cs_info.json")
     master_dict = json.load(cs_input_file)
 
     async def on_ready(self):
+        if self.conn.is_connected():
+            print("Connection established to database")
         JsonUtils.create_objects(self)
+        await self.change_presence(status=discord.Status.online, activity=discord.Game("with sloths"))
         print('Logged on as', self.user)
 
     async def on_message(self, message):
@@ -36,8 +41,6 @@ class CSBot(discord.Client):
             args.pop(0)
             locate_command = find_command(cmd, self)
             embed = discord.Embed(color=discord.Color.blue())
-            if isinstance(locate_command, AnnounceCommand):
-                args = message.content.split(" ")
             if locate_command is not None:
                 cmd_event = CommandEvent(message, locate_command, args, self, embed)
                 await cmd_event.execute_checks()
@@ -45,6 +48,7 @@ class CSBot(discord.Client):
 
 def main():  # main method
     client = CSBot()
+    client.conn = Database.get_connection()
     client.run(open("token.txt", "r").read())
 
 

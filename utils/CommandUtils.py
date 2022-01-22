@@ -11,7 +11,6 @@ def get_formatted_aliases(command):
 
 
 def join_args(args):
-    del args[:2]
     return " ".join(args)
 
 

@@ -1,5 +1,5 @@
 from core.Command import Command
-
+import mysql.connector
 
 class EvalCommand(Command):
     def __init__(self):
@@ -17,7 +17,10 @@ class EvalCommand(Command):
     @staticmethod
     async def execute(message, bot, args, embed):
         cursor = bot.conn.cursor()
-        cursor.execute(" ".join(args))
-        myresult = cursor.fetchall()
-        await message.channel.send(myresult)
+        try:
+            cursor.execute(" ".join(args))
+            query_result = cursor.fetchall()
+            await message.channel.send(query_result)
+        except mysql.connector.Error as err:
+            await message.channel.send("Something went wrong: {}".format(err))
         cursor.close()
