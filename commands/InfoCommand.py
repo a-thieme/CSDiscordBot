@@ -66,7 +66,7 @@ class InfoCommand(Command):
                             except asyncio.TimeoutError:
                                 break
                     return
-            embed.title = name.upper() + " Info"
+            embed.title = "Error"
             embed.description = "Unable to locate that course."
             await message.channel.send(embed=embed)
 
