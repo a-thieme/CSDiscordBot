@@ -136,3 +136,37 @@ def top_ten(db):
     except mysql.connector.Error as exc:
         print("Something went wrong: {}".format(exc))
     cursor.close()
+
+
+def get_courses(db, to_search):
+    cursor = db.cursor()
+    try:
+        cursor.execute('SELECT * FROM course WHERE subj=%s', [f"{to_search}"])
+        records = cursor.fetchall()
+        return records
+    except mysql.connector.Error as exc:
+        print("Something went wrong: {}".format(exc))
+    cursor.close()
+
+
+def get_professors(db, to_search):
+    cursor = db.cursor()
+    try:
+        cursor.execute('SELECT name, title, email, phone, office, picture FROM instructor WHERE name LIKE %s', [f"%{to_search}%"])
+        records = cursor.fetchall()
+        return records
+    except mysql.connector.Error as exc:
+        print("Something went wrong: {}".format(exc))
+    cursor.close()
+
+
+def get_professor_sections(db, professor):
+    cursor = db.cursor()
+    try:
+        cursor.execute('SELECT subj, num, sec_num, days, time FROM taught_by AS teaches JOIN section AS sec WHERE '
+                       'instructor LIKE %s AND teaches.crn=sec.crn', [f"%{professor}%"])
+        records = cursor.fetchall()
+        return records
+    except mysql.connector.Error as exc:
+        print("Something went wrong: {}".format(exc))
+    cursor.close()

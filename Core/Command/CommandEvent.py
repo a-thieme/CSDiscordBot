@@ -6,6 +6,7 @@ import discord
 from discord import DMChannel
 
 from Core.Database.Queries import get_last_message, increase_xp, update_msg_time
+from Core.Utilities.Paginator import paginate
 
 
 class CommandEvent:
@@ -91,6 +92,9 @@ class CommandEvent:
     def get_args(self):
         return self.args[1:]
 
+    def get_joined_args(self):
+        return ' '.join(self.args[1:])
+
     def get_embed(self):
         return self.embed
 
@@ -112,15 +116,19 @@ class CommandEvent:
     async def reply_embed_in_dms(self, content):
         await self.message.author.send(embed=content)
 
-    async def reply_error(self, content, time=5):
+    async def reply_error(self, content, seconds=5):
         msg = await self.message.channel.send(content)
-        await asyncio.sleep(time)
+        await asyncio.sleep(seconds)
         await msg.delete()
 
-    async def reply_embed_error(self, content, time=5):
-        msg = await self.message.channel.send(embed=content)
-        await asyncio.sleep(time)
+    async def reply_embed_error(self, content, seconds=5):
+        self.embed.description = content
+        msg = await self.message.channel.send(embed=self.embed)
+        await asyncio.sleep(seconds)
         await msg.delete()
+
+    async def send_menu(self, choices):
+        await paginate(self, choices)
 
     def locate_command(self, to_find):
         to_find = to_find.lower()

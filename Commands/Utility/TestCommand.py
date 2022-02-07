@@ -17,4 +17,4 @@ class TestCommand(Command):
 
     @staticmethod
     async def execute(event):
-        await event.reply("hello")
+        await event.send_menu([1, 2, 3, 4, 5], event.get_message())

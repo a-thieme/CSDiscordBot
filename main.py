@@ -11,7 +11,7 @@ class Client(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.database = None
-        self.commands = [TestCommand(), RankCommand(), LeaderboardCommand()]
+        self.commands = [TestCommand(), RankCommand(), LeaderboardCommand(), ClassesCommand(), ProfessorCommand()]
 
     async def on_ready(self):
         self.connect_database()
