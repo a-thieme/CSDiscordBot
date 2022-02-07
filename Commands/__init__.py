@@ -9,3 +9,5 @@ from Commands.Leveling.LeaderboardCommand import LeaderboardCommand
 from Commands.School.ClassesCommand import ClassesCommand
 from Commands.School.ProfessorCommand import ProfessorCommand
 
+# Moderation
+from Commands.Moderation.AnnounceCommand import AnnounceCommand

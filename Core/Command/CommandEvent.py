@@ -61,8 +61,7 @@ class CommandEvent:
         if self.command.required_role is not None:
             role = discord.utils.find(lambda r: r.name == self.command.required_role, self.message.guild.roles)
             if role not in self.message.author.roles:
-                self.embed.description = "You don't have permission to use this command"
-                await self.reply_embed_error(self.embed)
+                await self.reply_embed_error("You don't have permission to use this command")
                 return False
 
         return True
@@ -114,18 +113,15 @@ class CommandEvent:
         await self.message.author.send(content)
 
     async def reply_embed_in_dms(self, content):
-        await self.message.author.send(embed=content)
+        self.embed.description = content
+        await self.message.author.send(embed=self.embed)
 
     async def reply_error(self, content, seconds=5):
-        msg = await self.message.channel.send(content)
-        await asyncio.sleep(seconds)
-        await msg.delete()
+        await self.message.channel.send(content, delete_after=seconds)
 
     async def reply_embed_error(self, content, seconds=5):
         self.embed.description = content
-        msg = await self.message.channel.send(embed=self.embed)
-        await asyncio.sleep(seconds)
-        await msg.delete()
+        await self.message.channel.send(embed=self.embed, delete_after=seconds)
 
     async def send_menu(self, choices):
         await paginate(self, choices)
