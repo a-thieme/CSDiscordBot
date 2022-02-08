@@ -8,12 +8,12 @@ class AnnounceCommand(Command):
         self.category = "Moderation"
         self.required_args = 1
         self.required_role = "Community Staff"
-        self.owner_command = True
+        self.owner_command = False
         self.hidden = False
         self.user_permissions = None
         self.bot_permissions = None
         self.cooldown = 0
-        self.aliases = ["ann"]
+        self.aliases = []
 
     @staticmethod
     async def execute(event):

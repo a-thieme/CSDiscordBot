@@ -40,13 +40,11 @@ class CommandEvent:
         args = self.args[1:]
         ### Arguments ###
         if len(args) < self.command.required_args:
-            self.embed.description = "Not enough arguments, expected " + str(self.command.required_args)
-            await self.reply_embed_error(self.embed)
+            await self.reply_embed_error("Not enough arguments, expected " + str(self.command.required_args))
             return False
         ### Owner Command ###
         if self.command.owner_command and self.message.author.id not in [225411938866167808, 229392999145144321]:
-            self.embed.description = "This command is only for bot admins"
-            await self.reply_embed_error(self.embed)
+            await self.reply_embed_error("This command is only for bot admins")
             return False
         ### Cooldown ###
         if self.command.cooldown > 0:
@@ -54,8 +52,7 @@ class CommandEvent:
             msg_time_unix = time.mktime(self.message.created_at.timetuple())
             cooldown = msg_time_unix - last_msg
             if cooldown < self.command.cooldown:
-                self.embed.description = "This command is on cooldown"
-                await self.reply_embed_error(self.embed)
+                await self.reply_embed_error("This command is on cooldown")
                 return False
         ### Required Role ###
         if self.command.required_role is not None:

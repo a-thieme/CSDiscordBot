@@ -127,6 +127,18 @@ def get_multiplier(db, user_id):
     cursor.close()
 
 
+def update_multiplier(db, user_id, amount):
+    create_user(db, user_id)
+    cursor = db.cursor()
+    try:
+        cursor.execute('UPDATE student SET multiplier=%s WHERE discord_id=%s',
+                       [f"{amount}", f"{user_id}"])
+        db.commit()
+    except mysql.connector.Error as exc:
+        print("Something went wrong: {}".format(exc))
+    cursor.close()
+
+
 def top_ten(db):
     cursor = db.cursor()
     try:
@@ -152,7 +164,8 @@ def get_courses(db, to_search):
 def get_professors(db, to_search):
     cursor = db.cursor()
     try:
-        cursor.execute('SELECT name, title, email, phone, office, picture FROM instructor WHERE name LIKE %s', [f"%{to_search}%"])
+        cursor.execute('SELECT name, title, email, phone, office, picture FROM instructor WHERE name LIKE %s',
+                       [f"%{to_search}%"])
         records = cursor.fetchall()
         return records
     except mysql.connector.Error as exc:
