@@ -11,7 +11,7 @@ class Client(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.database = None
-        self.commands = [TestCommand(), RankCommand(), LeaderboardCommand(), ClassesCommand(), ProfessorCommand(), AnnounceCommand(), HelpCommand(), MultiplierCommand()]
+        self.commands = [TestCommand(), RankCommand(), LeaderboardCommand(), ClassesCommand(), ProfessorCommand(), AnnounceCommand(), HelpCommand(), MultiplierCommand(), CourseCommand()]
 
     async def on_ready(self):
         self.connect_database()
@@ -37,8 +37,7 @@ class Client(discord.Client):
 
 def main():
     client = Client()
-    client.run('OTM2ODg1NTA4MTQxODgzNDEy.YfTsnw.YXH1KypBQWGxn3z5aY5oUdd7nrE')
-    # client.run(open("token.txt", "r").read())
+    client.run(open("token.txt", "r").read())
 
 
 main()

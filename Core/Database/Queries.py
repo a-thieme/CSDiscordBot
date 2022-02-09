@@ -161,6 +161,18 @@ def get_courses(db, to_search):
     cursor.close()
 
 
+def get_section(db, subj, code):
+    cursor = db.cursor()
+    try:
+        cursor.execute('SELECT * FROM section AS section JOIN course AS course JOIN taught_by as taught_by WHERE section.subj=%s AND '
+                       'section.num=%s AND section.num=course.num AND section.subj=course.subj AND taught_by.crn=section.crn ORDER BY section.sec_num ASC', [f"{subj}", f"{code}"])
+        records = cursor.fetchall()
+        return records
+    except mysql.connector.Error as exc:
+        print("Something went wrong: {}".format(exc))
+    cursor.close()
+
+
 def get_professors(db, to_search):
     cursor = db.cursor()
     try:

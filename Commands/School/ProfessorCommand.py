@@ -4,6 +4,7 @@ import discord
 
 from Core.Command import Command
 from Core.Database.Queries import get_professors, get_professor_sections
+from Core.Utilities import StringTools
 
 
 class ProfessorCommand(Command):
@@ -41,16 +42,8 @@ class ProfessorCommand(Command):
                     embed.add_field(name=fields[attribute], value=professor[attribute], inline=False)
             sections = get_professor_sections(event.get_database(), professor[0])
             for sec in sections:
-                embed.add_field(name=(sec[0] + str(sec[1])), value=get_section_info(sec), inline=False)
+                embed.add_field(name=(sec[0] + str(sec[1])), value=StringTools.get_professor_section_info(sec), inline=False)
             choices.append(embed)
         await event.send_menu(choices)
 
 
-def get_section_info(section):
-    section = [str(i or 'N/A') for i in section]
-    string_builder = "```"
-    string_builder += ("Course         " + section[0] + str(section[1]) + "\n")
-    string_builder += ("Days           " + section[3] + "\n")
-    string_builder += ("Time           " + section[4] + "\n")
-    string_builder += "```"
-    return string_builder

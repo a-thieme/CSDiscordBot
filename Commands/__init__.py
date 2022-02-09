@@ -9,6 +9,7 @@ from Commands.Leveling.MultiplierCommand import MultiplierCommand
 
 # School
 from Commands.School.ClassesCommand import ClassesCommand
+from Commands.School.CourseCommand import CourseCommand
 from Commands.School.ProfessorCommand import ProfessorCommand
 
 # Moderation
