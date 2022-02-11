@@ -50,8 +50,8 @@ async def increase_xp(db, message, bot):
     cursor.close()
     new_level = get_level(get_xp(db, user_id))
     if new_level>prior_level:
-        bot_spam = bot.get_channel(931418786517647360)
-        await bot_spam.send(message.author + " has ranked up to level " + new_level + "!")
+        bot_spam = bot.get_channel(769199649558757426)
+        await bot_spam.send(str(message.author) + " has ranked up to level " + str(new_level) + "!")
 
 
 def update_msg_time(db, message):
