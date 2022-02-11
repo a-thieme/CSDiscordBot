@@ -12,7 +12,7 @@ class CommandEvent:
     def __init__(self, bot, message):
         self.bot = bot
         self.message = message
-        self.args = message.content.replace('#', '', 1).split(" ")
+        self.args = message.content.replace('?', '', 1).split(" ")
         embed_builder = discord.Embed(color=discord.Color.blue())
         embed_builder.timestamp = datetime.datetime.utcnow()
         embed_builder.set_footer(text=self.message.author.name, icon_url=str(self.message.author.avatar_url))
@@ -24,7 +24,7 @@ class CommandEvent:
             return
         if isinstance(message.channel, DMChannel):
             return
-        if message.content.startswith('#'):
+        if message.content.startswith('?'):
             self.command = self.locate_command(self.args[0])
             passes_requirements = await self.filter_requirements()
             if self.command and passes_requirements:
