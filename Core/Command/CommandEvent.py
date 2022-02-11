@@ -1,4 +1,3 @@
-import asyncio
 import datetime
 import time
 
@@ -32,7 +31,7 @@ class CommandEvent:
                 await self.command.execute(self)
                 update_msg_time(self.get_database(), message)
             return
-        increase_xp(self.get_database(), message)
+        await increase_xp(self.get_database(), message, self.get_bot())
 
     async def filter_requirements(self):
         if self.command is None:

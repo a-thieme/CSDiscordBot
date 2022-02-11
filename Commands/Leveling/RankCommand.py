@@ -20,7 +20,7 @@ class RankCommand(Command):
     @staticmethod
     async def execute(event):
         to_check = event.get_author()
-        if event.get_args():
+        if event.get_message().mentions:
             to_check = event.get_message().mentions[0]
         card = get_rank_card(event, to_check)
         await event.get_channel().send(file=card)

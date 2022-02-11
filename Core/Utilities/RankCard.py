@@ -42,7 +42,7 @@ def get_rank_card(event, user):
     background.text(
         (200, 130),
         f"Level : {user_data['level']} "
-        + f" XP : {user_data['xp']} / {user_data['next_level_xp']}",
+        + f" XP : {int(user_data['xp'])} / {user_data['next_level_xp']}",
         font=poppins_small,
         color="white",
     )

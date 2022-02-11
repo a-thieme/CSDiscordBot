@@ -1,3 +1,4 @@
+import math
 import random
 import time
 
@@ -23,7 +24,7 @@ def create_user(db, user_id):
     cursor.close()
 
 
-def increase_xp(db, message):
+async def increase_xp(db, message, bot):
     if message.author.bot:
         return
     user_id = message.author.id
@@ -31,6 +32,7 @@ def increase_xp(db, message):
     create_user(db, user_id)
     cursor = db.cursor()
     previous_last_msg = get_last_message(db, user_id)
+    prior_level = get_level(get_xp(db, user_id))
     try:  # Set last_msg equal to the time of the last message sent per-user
         cursor.execute('UPDATE student SET last_msg=%s,total_msg=total_msg+1 WHERE discord_id=%s',
                        [f"{msg_time_unix}", f"{user_id}"])
@@ -46,6 +48,10 @@ def increase_xp(db, message):
                        [f"{xp}", f"{user_id}"])
         db.commit()
     cursor.close()
+    new_level = get_level(get_xp(db, user_id))
+    if new_level>prior_level:
+        bot_spam = bot.get_channel(931418786517647360)
+        await bot_spam.send(message.author + " has ranked up to level " + new_level + "!")
 
 
 def update_msg_time(db, message):
@@ -96,6 +102,8 @@ def get_xp(db, user_id):
         print("Something went wrong: {}".format(exc))
     cursor.close()
 
+def get_level(xp):
+    return math.floor(-2.5 + math.sqrt(8 * xp + 1225) / 10)
 
 def get_rank(db, user_id):
     create_user(db, user_id)
