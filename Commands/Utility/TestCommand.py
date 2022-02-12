@@ -17,4 +17,6 @@ class TestCommand(Command):
 
     @staticmethod
     async def execute(event):
-        await event.reply([1, 2, 3, 4, 5])
+        # choices = ["001 - Kriangsiri Malasri [MW 11:20am-12:45pm] <t:1644713529:R>", "002 - Kriangsiri Malasri [TR 11:20am-12:45pm] <t:1644713529:R>", "003 - Fatih Sen [MW 11:20am-12:45pm] <t:1644713529:R>", "004 - Kriangsiri Malasri [MW 4:40pm-16:45pm] <t:1644713529:R>"]
+        # await event.reply(("selection result was ", await event.send_selection_menu(choices)))
+        await event.reply("Test")
