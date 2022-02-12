@@ -31,6 +31,8 @@ class CommandEvent:
             if self.command and passes_requirements:
                 await self.command.execute(self)
                 update_msg_time(self.get_database(), message)
+                return
+            update_msg_time(self.get_database(), message)
             return
         await increase_xp(self.get_database(), message, self.get_bot())
 
