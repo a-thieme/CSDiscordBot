@@ -36,7 +36,9 @@ class Client(discord.Client):
 
 
 def main():
-    client = Client()
+    intents = discord.Intents.default()
+    intents.message_content = True
+    client = Client(intents=intents)
     client.run(open("token.txt", "r").read())
 
 
