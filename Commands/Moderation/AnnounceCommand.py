@@ -17,5 +17,5 @@ class AnnounceCommand(Command):
 
     @staticmethod
     async def execute(event):
-        channel = event.get_bot().get_channel(931418786517647360)
+        channel = event.get_bot().get_channel(748159572283490406)
         await channel.send(event.get_joined_args())

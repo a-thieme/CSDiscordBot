@@ -1,6 +1,7 @@
 # Utility
 from Commands.Utility.TestCommand import TestCommand
 from Commands.Utility.HelpCommand import HelpCommand
+from Commands.Utility.PingCommand import PingCommand
 
 # Leveling
 from Commands.Leveling.RankCommand import RankCommand

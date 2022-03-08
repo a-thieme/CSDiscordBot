@@ -32,7 +32,7 @@ class ClassesCommand(Command):
             embed = discord.Embed(color=discord.Color.blue())
             embed.title = subject + " Courses"
             embed.timestamp = datetime.datetime.utcnow()
-            embed.set_footer(text=event.get_author().name, icon_url=str(event.get_author().avatar_url))
+            embed.set_footer(text=event.get_author().name, icon_url=str(event.get_author().avatar))
             embed.description = "A list of courses in the " + subject + " subject"
             for course in group:
                 course_title = (course[0].upper() + str(course[1]))

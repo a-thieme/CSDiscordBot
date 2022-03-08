@@ -1,4 +1,37 @@
+import discord
+
 from Core.Command import Command
+
+
+class Dropdown(discord.ui.Select):
+    def __init__(self):
+
+        # Set the options that will be presented inside the dropdown
+        options = [
+            discord.SelectOption(label='Red', description='Your favourite colour is red', emoji='🟥'),
+            discord.SelectOption(label='Green', description='Your favourite colour is green', emoji='🟩'),
+            discord.SelectOption(label='Blue', description='Your favourite colour is blue', emoji='🟦')
+        ]
+
+        # The placeholder is what will be shown when no option is chosen
+        # The min and max values indicate we can only pick one of the three options
+        # The options parameter defines the dropdown options. We defined this above
+        super().__init__(placeholder='Choose your favourite colour...', min_values=1, max_values=1, options=options)
+
+    async def callback(self, interaction: discord.Interaction):
+        # Use the interaction object to send a response message containing
+        # the user's favourite colour or choice. The self object refers to the
+        # Select object, and the values attribute gets a list of the user's
+        # selected options. We only want the first one.
+        await interaction.response.send_message(f'Your favourite colour is {self.values[0]}')
+
+
+class DropdownView(discord.ui.View):
+    def __init__(self):
+        super().__init__()
+
+        # Adds the dropdown to our view object.
+        self.add_item(Dropdown())
 
 
 class TestCommand(Command):
@@ -12,11 +45,11 @@ class TestCommand(Command):
         self.hidden = False
         self.user_permissions = None
         self.bot_permissions = None
-        self.cooldown = 10
+        self.cooldown = 0
         self.aliases = ["testing"]
 
     @staticmethod
     async def execute(event):
-        # choices = ["001 - Kriangsiri Malasri [MW 11:20am-12:45pm] <t:1644713529:R>", "002 - Kriangsiri Malasri [TR 11:20am-12:45pm] <t:1644713529:R>", "003 - Fatih Sen [MW 11:20am-12:45pm] <t:1644713529:R>", "004 - Kriangsiri Malasri [MW 4:40pm-16:45pm] <t:1644713529:R>"]
-        # await event.reply(("selection result was ", await event.send_selection_menu(choices)))
-        await event.reply("Test")
+        view = DropdownView()
+        await event.get_channel().send("Pick your favorite color:", view=view)
+        # await event.reply("Test")

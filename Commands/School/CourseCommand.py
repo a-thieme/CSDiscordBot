@@ -36,7 +36,7 @@ class CourseCommand(Command):
             for section in located_sections:
                 embed = discord.Embed(color=discord.Color.blue())
                 embed.timestamp = datetime.datetime.utcnow()
-                embed.set_footer(text=event.get_author().name, icon_url=str(event.get_author().avatar_url))
+                embed.set_footer(text=event.get_author().name, icon_url=str(event.get_author().avatar))
                 embed.title = course.upper() + " [" + section[3] + "] INFO"
                 embed.description = section[18]
                 embed.add_field(name="Credit Hours", value=section[17], inline=False)

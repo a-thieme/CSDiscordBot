@@ -34,7 +34,7 @@ class ProfessorCommand(Command):
             embed = discord.Embed(color=discord.Color.blue())
             embed.title = professor[0]
             embed.timestamp = datetime.datetime.utcnow()
-            embed.set_footer(text=event.get_author().name, icon_url=str(event.get_author().avatar_url))
+            embed.set_footer(text=event.get_author().name, icon_url=str(event.get_author().avatar))
             if professor[5] is not None:  # If they have an associated image
                 embed.set_thumbnail(url=professor[5])
             for attribute in range(1, 5):  # Since we only want Title, Email, Phone Number, and Office

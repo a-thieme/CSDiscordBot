@@ -14,7 +14,7 @@ def get_rank_card(event, user):
     background = Editor(Canvas((900, 300), color="#00488f"))
 
     # For profile to use users profile picture load it from url using the load_image/load_image_async function
-    profile_image = load_image(str(user.avatar_url))
+    profile_image = load_image(str(user.avatar))
     profile = Editor(profile_image).resize((150, 150)).circle_image()
 
     poppins = Font.poppins(size=40)

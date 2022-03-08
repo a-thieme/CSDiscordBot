@@ -16,7 +16,7 @@ class CommandEvent:
         self.args = message.content.replace('?', '', 1).split(" ")
         embed_builder = discord.Embed(color=discord.Color.blue())
         embed_builder.timestamp = datetime.datetime.utcnow()
-        embed_builder.set_footer(text=self.message.author.name, icon_url=str(self.message.author.avatar_url))
+        embed_builder.set_footer(text=self.message.author.name, icon_url=str(self.message.author.avatar))
         self.embed = embed_builder
 
     async def filter_commands(self):
@@ -105,7 +105,10 @@ class CommandEvent:
     async def reply(self, content):
         await self.message.channel.send(content)
 
-    async def reply_embed(self, content):
+    async def send_embed(self, embed):
+        await self.message.channel.send(embed=embed)
+
+    async def reply_in_embed(self, content):
         self.embed.description = content
         await self.message.channel.send(embed=self.embed)
 

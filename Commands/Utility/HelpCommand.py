@@ -28,4 +28,4 @@ class HelpCommand(Command):
                     value=command.help,
                     inline=False
                     )
-        await event.reply_embed(event.get_embed())
+        await event.send_embed(event.get_embed())
