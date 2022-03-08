@@ -12,7 +12,7 @@ class PingCommand(Command):
         self.user_permissions = None
         self.bot_permissions = None
         self.cooldown = 0
-        self.aliases = ["testing"]
+        self.aliases = []
 
     @staticmethod
     async def execute(event):
