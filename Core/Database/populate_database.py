@@ -223,7 +223,7 @@ def strip_raw():
     return output
 
 
-term = 202210
+term = 202250
 
 
 def create_tables(input_df):
@@ -317,8 +317,8 @@ def create_tables(input_df):
     subject.to_sql('subject', con=con, index=False, if_exists='append')
     course.to_sql('course', con=con, index=False, if_exists='append')
     pd.DataFrame({
-        'term_id': [202210],
-        'semantic': ['Spring 2022']
+        'term_id': [202250],
+        'semantic': ['Summer 2022']
     }).to_sql('term', con=con, index=False, if_exists='append')
     section.to_sql('section', con=con, index=False, if_exists='append')
     taught_by.to_sql('taught_by', con=con, index=False, if_exists='append')
