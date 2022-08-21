@@ -198,7 +198,7 @@ def strip_post():
 
 def strip_raw():
     output = []
-    with open('AllClasses-raw.html', 'r') as f:
+    with open('../CSBot/Core/Database/AllClasses-raw.html', 'r') as f:
         in_table = False
         first_group = False
         hold = ''
@@ -223,7 +223,7 @@ def strip_raw():
     return output
 
 
-term = 202250
+term = 202280
 
 
 def create_tables(input_df):
@@ -232,6 +232,8 @@ def create_tables(input_df):
     section = pd.DataFrame()
     instructor = pd.DataFrame()
     taught_by = pd.DataFrame()
+
+    subject.append({"subj": "AAAS", "name": "Afrcn and Afrcn-Amer Stds"}, ignore_index=True)
 
     Course = ['Subj', 'Crse', 'Cred', 'Title']
     Section = ['CRN', 'Subj', 'Crse', 'Sec', 'Time', 'Days', 'Location', 'Date (MM/DD)', 'Cap', 'Act', 'Rem',
@@ -300,25 +302,25 @@ def create_tables(input_df):
     instructor = instructor.drop_duplicates()
 
     # # output for viewing in excel
-    # with pd.ExcelWriter('output.xlsx') as writer:
-    #     course.to_excel(writer, sheet_name='course')
-    #     section.to_excel(writer, sheet_name='section')
-    #     instructor.to_excel(writer, sheet_name='instructor')
-    #     subject.to_excel(writer, sheet_name='subject')
-    #     taught_by.to_excel(writer, sheet_name='taught_by')
+    with pd.ExcelWriter('output.xlsx') as writer:
+        course.to_excel(writer, sheet_name='course')
+        section.to_excel(writer, sheet_name='section')
+        instructor.to_excel(writer, sheet_name='instructor')
+        subject.to_excel(writer, sheet_name='subject')
+        taught_by.to_excel(writer, sheet_name='taught_by')
 
     # eventually, this might return all the tables
+
     from sqlalchemy import create_engine
-    # engine = create_engine("mysql+pymysql://adamt:yummy@135.148.40.213:3306/university")
-    engine = create_engine("mysql+pymysql://root:something@localhost:3306/university")
+    engine = create_engine("mariadb+mariadbconnector://bot:changeme@localhost:3306/university")
     con = engine.connect()
 
     instructor.to_sql('instructor', index=False, con=con, if_exists='append')
     subject.to_sql('subject', con=con, index=False, if_exists='append')
     course.to_sql('course', con=con, index=False, if_exists='append')
     pd.DataFrame({
-        'term_id': [202250],
-        'semantic': ['Summer 2022']
+        'term_id': [202280],
+        'semantic': ['Fall 2022']
     }).to_sql('term', con=con, index=False, if_exists='append')
     section.to_sql('section', con=con, index=False, if_exists='append')
     taught_by.to_sql('taught_by', con=con, index=False, if_exists='append')
@@ -341,5 +343,6 @@ def master_excel_output(input_df):
 if __name__ == '__main__':
     create_tables(make_df())
     # make_json()
+    # x= make_df()
 
-    print()
+    # print(x)
