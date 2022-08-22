@@ -15,3 +15,4 @@ from Commands.School.ProfessorCommand import ProfessorCommand
 
 # Moderation
 from Commands.Moderation.AnnounceCommand import AnnounceCommand
+from Commands.Moderation.LookupCommand import LookupCommand
