@@ -135,6 +135,9 @@ class CommandEvent:
     async def send_selection_menu(self, choices):
         return(await selection(self, choices))
 
+    async def remove_old_message(self):
+        await self.message.delete()
+
     def locate_command(self, to_find):
         to_find = to_find.lower()
         for cmd in self.bot.commands:
