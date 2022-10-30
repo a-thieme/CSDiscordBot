@@ -15,12 +15,12 @@ def do_math(expression, timestamp):
 
 async def do_latex(expression):
     current_time = round(time.time())
-    # try:
-    filename = do_math(expression, current_time)
-    return filename
-    # except RuntimeError:
-    #     # latex prolly went wrong
-    #     return None
+    try:
+        filename = do_math(expression, current_time)
+        return filename
+    except RuntimeError:
+        # latex prolly went wrong
+        return None
 
 
 class LatexCommand(Command):
@@ -42,3 +42,4 @@ class LatexCommand(Command):
         if results is None:
             return
         await event.send_file(results)
+        await event.remove_old_message()
