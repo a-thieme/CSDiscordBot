@@ -38,7 +38,8 @@ class LatexCommand(Command):
 
     @staticmethod
     async def execute(event):
-        results = await do_latex(''.join(event.get_args()).replace('`', ''))
+        buf = '\\\\ \\hbox{-}\\\\'
+        results = await do_latex(buf + ''.join(event.get_args()).replace('`', '') + buf)
         if results is None:
             return
         await event.send_file(results)
