@@ -6,11 +6,14 @@ from Commands import *
 from Core.Command.CommandEvent import CommandEvent
 from Core.Database.Config import db_config
 
+
 class Client(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.database = None
-        self.commands = [TestCommand(), RankCommand(), LeaderboardCommand(), ClassesCommand(), ProfessorCommand(), AnnounceCommand(), HelpCommand(), MultiplierCommand(), CourseCommand(), PingCommand(), LookupCommand()]
+        self.commands = [TestCommand(), RankCommand(), LeaderboardCommand(), ClassesCommand(), ProfessorCommand(),
+                         AnnounceCommand(), HelpCommand(), MultiplierCommand(), CourseCommand(), PingCommand(),
+                         LookupCommand(), LatexCommand()]
 
     async def on_ready(self):
         self.connect_database()

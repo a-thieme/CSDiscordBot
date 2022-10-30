@@ -105,6 +105,9 @@ class CommandEvent:
     async def reply(self, content):
         await self.message.channel.send(content)
 
+    async def send_file(self, filename):
+        await self.message.channel.send(file=discord.File(filename))
+
     async def send_embed(self, embed):
         await self.message.channel.send(embed=embed)
 
