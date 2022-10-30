@@ -8,8 +8,15 @@ import time
 
 
 def do_math(expression, timestamp):
-    filename = f'{timestamp}.png'
-    sympy.preview(f'${expression}$', output='png', viewer='file', filename=filename)
+    filename = f'/tmp/{timestamp}.png'
+    try:
+        # unix
+        sympy.preview(f'${expression}$', output='png', viewer='file', filename=filename)
+    except FileNotFoundError:
+        # windows
+        filename = f'c:/temp/{timestamp}.png'
+        sympy.preview(f'${expression}$', output='png', viewer='file', filename=filename)
+
     return filename
 
 
@@ -35,6 +42,7 @@ class LatexCommand(Command):
         self.user_permissions = None
         self.bot_permissions = None
         self.cooldown = 0
+        self.aliases = ['```latex']
 
     @staticmethod
     async def execute(event):
