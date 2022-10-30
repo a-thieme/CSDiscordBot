@@ -6,7 +6,6 @@ from Commands import *
 from Core.Command.CommandEvent import CommandEvent
 from Core.Database.Config import db_config
 
-
 class Client(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -39,7 +38,16 @@ def main():
     intents = discord.Intents.default()
     intents.message_content = True
     client = Client(intents=intents)
-    client.run(open("token.txt", "r").read())
+
+    # there's probably a better way to do this, but it works alright
+    try:
+        # python is run by bot user
+        token = open("token.txt", 'r').read()
+    except FileNotFoundError:
+        # python is run by root user (system service)
+        token = open("/home/bot/csbot/token.txt", 'r').read()
+
+    client.run(token)
 
 
 main()
