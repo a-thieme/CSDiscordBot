@@ -33,7 +33,7 @@ async def do_latex(expression):
 class LatexCommand(Command):
     def __init__(self):
         self.name = "la"
-        self.help = "Tries to print with LaTeX formatting.\nDo \\hbox{test} to write \"test\" as text. Otherwise, it is treated like an expression in $$"
+        self.help = "Tries to print with LaTeX formatting.\nDo \\hbox{test} to write \"test\" as text.\nOtherwise, it is treated like an expression in $$"
         self.category = "Utility"
         self.required_args = 1
         self.required_role = None
