@@ -46,9 +46,16 @@ class LatexCommand(Command):
 
     @staticmethod
     async def execute(event):
+        user_inputs = event.get_args()
+        remove = False
+        if user_inputs[0] == '-r':
+            del user_inputs[0]
+            remove = True
+
         buf = '\\\\ \\hbox{-}\\\\'
-        results = await do_latex(buf + ''.join(event.get_args()).replace('`', '') + buf)
+        results = await do_latex(buf + ''.join(user_inputs).replace('`', '') + buf)
         if results is None:
             return
         await event.send_file(results)
-        await event.remove_old_message()
+        if remove:
+            await event.remove_old_message()
