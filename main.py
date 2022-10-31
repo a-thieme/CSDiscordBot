@@ -36,6 +36,13 @@ class Client(discord.Client):
         command_event = CommandEvent(self, message)
         await command_event.filter_commands()
 
+    ## new user verification for WiC
+    # async def on_member_join(self, member):
+    #     dm_channel = member.create_dm()
+    #     await dm_channel.send("""Welcome to the Memphis CS Discord Server!
+    #     If you would like to be verified, please send your UID (the one with numbers) or DM either Marshall or Adam.
+    #     We only use it for extra verification and do not store it anywhere, nor do we require you to do so. """)
+
 
 def main():
     intents = discord.Intents.default()

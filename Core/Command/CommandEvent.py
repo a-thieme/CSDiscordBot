@@ -1,5 +1,7 @@
 import datetime
 import time
+import re
+import pandas as pd
 
 import discord
 from discord import DMChannel
@@ -24,7 +26,21 @@ class CommandEvent:
         if message.author.bot or message.author == self.bot.user:
             return
         if isinstance(message.channel, DMChannel):
+            m = re.findall("\d+", message.content.strip())
+            try:
+                a = [x.replace('U', '') for x in list(pd.read_csv('results.csv').get('Id'))]
+            except FileNotFoundError:
+                a = [x.replace('U', '') for x in list(pd.read_csv('/home/bot/csbot/results.csv').get('Id'))]
+
+            for i in m:
+                if i in a:
+                    guild = await self.bot.fetch_guild(694593753410961428)
+                    user = await guild.fetch_member(message.author.id)
+
+                    chan = await self.bot.fetch_channel(1036482868639170680)
+                    await chan.set_permissions(user, view_channel=True)
             return
+
         if message.content.startswith('?'):
             self.command = self.locate_command(self.args[0])
             passes_requirements = await self.filter_requirements()
