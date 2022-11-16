@@ -42,7 +42,7 @@ class Client(discord.Client):
         await dm_channel.send("""Welcome to the Memphis CS Discord Server!
         If you would like to join the Women in Computing channel, please send your UID (the one with numbers).
         We do not store it anywhere.
-        If you aren't automatically added, DM either Marshall or Adam who will help you out.""")
+        If you aren't automatically added, DM either <@229392999145144321> or <@225411938866167808> who will help you out.""")
 
 
 def main():
