@@ -39,6 +39,7 @@ class CommandEvent:
 
                     chan = await self.bot.fetch_channel(1036482868639170680)
                     await chan.set_permissions(user, view_channel=True)
+                    await chan.send(f'Welcome <@{user.id}> to the Women in Computing channel!')
             return
 
         if message.content.startswith('?'):
