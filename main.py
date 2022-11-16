@@ -36,12 +36,13 @@ class Client(discord.Client):
         command_event = CommandEvent(self, message)
         await command_event.filter_commands()
 
-    ## new user verification for WiC
-    # async def on_member_join(self, member):
-    #     dm_channel = member.create_dm()
-    #     await dm_channel.send("""Welcome to the Memphis CS Discord Server!
-    #     If you would like to give extra verification (not required), please send your UID (the one with numbers) or DM either Marshall or Adam.
-    #     We only use it for extra verification and do not store it anywhere.
+    # new user verification for WiC
+    async def on_member_join(self, member):
+        dm_channel = member.create_dm()
+        await dm_channel.send("""Welcome to the Memphis CS Discord Server!
+        If you would like to join the Women in Computing channel, please send your UID (the one with numbers).
+        We do not store it anywhere.
+        If you aren't automatically added, DM either Marshall or Adam who will help you out.
 
 
 def main():
