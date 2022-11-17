@@ -47,6 +47,7 @@ class Client(discord.Client):
 def main():
     intents = discord.Intents.default()
     intents.message_content = True
+    intents.members = True
     client = Client(intents=intents)
 
     # there's probably a better way to do this, but it works alright
